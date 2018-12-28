@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>API Reference</title>
+    <title>KeyClouding API</title>
 
     <style>
       .highlight table td { padding: 5px; }
@@ -201,7 +201,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;,&quot;ruby&quot;,&quot;python&quot;,&quot;javascript&quot;]">
+  <body class="index" data-languages="[&quot;shell&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -212,9 +212,6 @@
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
               <a href="#" data-language-name="shell">shell</a>
-              <a href="#" data-language-name="ruby">ruby</a>
-              <a href="#" data-language-name="python">python</a>
-              <a href="#" data-language-name="javascript">javascript</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -222,282 +219,837 @@
         <ul class="search-results"></ul>
       <ul id="toc" class="toc-list-h1">
           <li>
-            <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
+            <a href="#introduccion" class="toc-h1 toc-link" data-title="Introducción">Introducción</a>
           </li>
           <li>
-            <a href="#authentication" class="toc-h1 toc-link" data-title="Authentication">Authentication</a>
+            <a href="#autenticacion" class="toc-h1 toc-link" data-title="Autenticación">Autenticación</a>
           </li>
           <li>
-            <a href="#kittens" class="toc-h1 toc-link" data-title="Kittens">Kittens</a>
+            <a href="#consultas-y-funcionalidades" class="toc-h1 toc-link" data-title="Consultas y Funcionalidades">Consultas y Funcionalidades</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#get-all-kittens" class="toc-h2 toc-link" data-title="Get All Kittens">Get All Kittens</a>
+                    <a href="#asignacion-de-cargo" class="toc-h2 toc-link" data-title="Asignación de Cargo">Asignación de Cargo</a>
                   </li>
                   <li>
-                    <a href="#get-a-specific-kitten" class="toc-h2 toc-link" data-title="Get a Specific Kitten">Get a Specific Kitten</a>
+                    <a href="#consulta-de-resultados" class="toc-h2 toc-link" data-title="Consulta de resultados">Consulta de resultados</a>
                   </li>
                   <li>
-                    <a href="#delete-a-specific-kitten" class="toc-h2 toc-link" data-title="Delete a Specific Kitten">Delete a Specific Kitten</a>
+                    <a href="#lista-de-key-scorings-cargos-activos" class="toc-h2 toc-link" data-title="Lista de Key Scorings (cargos) activos">Lista de Key Scorings (cargos) activos</a>
+                  </li>
+                  <li>
+                    <a href="#creacion-de-webhook" class="toc-h2 toc-link" data-title="Creación de Webhook">Creación de Webhook</a>
+                  </li>
+                  <li>
+                    <a href="#listar-webhooks-existentes" class="toc-h2 toc-link" data-title="Listar Webhooks existentes">Listar Webhooks existentes</a>
+                  </li>
+                  <li>
+                    <a href="#eliminacion-de-webhook" class="toc-h2 toc-link" data-title="Eliminación de Webhook">Eliminación de Webhook</a>
                   </li>
               </ul>
           </li>
           <li>
-            <a href="#errors" class="toc-h1 toc-link" data-title="Errors">Errors</a>
+            <a href="#estandares-y-tecnologia" class="toc-h1 toc-link" data-title="Estándares y Tecnología">Estándares y Tecnología</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#comunicacion" class="toc-h2 toc-link" data-title="Comunicación">Comunicación</a>
+                  </li>
+                  <li>
+                    <a href="#tecnologia" class="toc-h2 toc-link" data-title="Tecnología">Tecnología</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#justificacion-de-la-tecnologia" class="toc-h1 toc-link" data-title="Justificación de la Tecnología">Justificación de la Tecnología</a>
+          </li>
+          <li>
+            <a href="#ambiente-de-prueba" class="toc-h1 toc-link" data-title="Ambiente de prueba">Ambiente de prueba</a>
           </li>
       </ul>
-        <ul class="toc-footer">
-            <li><a href='#'>Sign Up for a Developer Key</a></li>
-            <li><a href='https://github.com/lord/slate'>Documentation Powered by Slate</a></li>
-        </ul>
     </div>
     <div class="page-wrapper">
       <div class="dark-box"></div>
       <div class="content">
-        <h1 id='introduction'>Introduction</h1>
-<p>Welcome to the Kittn API! You can use our API to access Kittn API endpoints, which can get information on various cats, kittens, and breeds in our database.</p>
+        <h1 id='introduccion'>Introducción</h1>
+<p>En el siguiente documento se detallan los mecanismos y protocolos de comunicación a utilizar para el intercambio de información entre aplicaciones cliente y el servidor de datos de KeyClouding.</p>
 
-<p>We have language bindings in Shell, Ruby, Python, and JavaScript! You can view code examples in the dark area to the right, and you can switch the programming language of the examples with the tabs in the top right.</p>
-
-<p>This example API documentation page was created with <a href="https://github.com/lord/slate">Slate</a>. Feel free to edit it and use it as a base for your own API&#39;s documentation.</p>
-<h1 id='authentication'>Authentication</h1>
-<blockquote>
-<p>To authorize, use this code:</p>
-</blockquote>
-<pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code><span class="c"># With shell, you can just pass the correct header with each request</span>
-curl <span class="s2">"api_endpoint_here"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
+<p>Para efectos del documento, la aplicación cliente realizará solicitudes al servidor y este enviará un set de resultados (o nulo) para la consulta indicada. A continuación, se presentan los estándares y tecnología a utilizar, luego las consultas y set de respuesta esperados y finalmente una pequeña justificación de la implementación.</p>
+<h1 id='autenticacion'>Autenticación</h1><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/authentication?secret=hola"</span>
 </code></pre>
 <blockquote>
-<p>Make sure to replace <code>meowmeowmeow</code> with your API key.</p>
-</blockquote>
-
-<p>Kittn uses API keys to allow access to the API. You can register a new Kittn API key at our <a href="http://example.com/developers">developer portal</a>.</p>
-
-<p>Kittn expects for the API key to be included in all API requests to the server in a header that looks like the following:</p>
-
-<p><code>Authorization: meowmeowmeow</code></p>
-
-<aside class="notice">
-You must replace <code>meowmeowmeow</code> with your personal API key.
-</aside>
-<h1 id='kittens'>Kittens</h1><h2 id='get-all-kittens'>Get All Kittens</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">kittens</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">();</span>
-</code></pre>
-<blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Si la respuesta es satisfactoria:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Fluffums"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"calico"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">6</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="w">
-  </span><span class="p">},</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-    </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AfTzE7BpcORyp6fN"</span><span class="w">
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves all kittens.</p>
-<h3 id='http-request'>HTTP Request</h3>
-<p><code>GET http://example.com/api/kittens</code></p>
-<h3 id='query-parameters'>Query Parameters</h3>
+<blockquote>
+<p>Si se produce un error:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">401</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>Para hacer uso de la API de Keyclouding, en toda consulta que se realiza al servidor se debe entregar un parámetro &quot;token&quot;. Este se genera por medio de la autenticación y tiene una validez de 30 minutos.</p>
+
+<p>Para generar el token, se debe hacer un request con método POST al url
+ <code>https://app.keyclouding.cl/api/v1/company/authentication</code>.</p>
+
+<p>Se debe entregar a este request un parámetro &quot;secret&quot;, que es entregado a la compañía por Keyclouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.</p>
+
+<p>A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a &quot;hola&quot; y a posibles respuestas según el resultado obtenido.</p>
+<h1 id='consultas-y-funcionalidades'>Consultas y Funcionalidades</h1><h2 id='asignacion-de-cargo'>Asignación de Cargo</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/assign_ks?token=AfTzE7BpcORyp6fN&amp;dni=13.433.615-3&amp;ks_code=VET&amp;country=CL"</span>
+</code></pre>
+<blockquote>
+<p>Si la asignación es satisfactoria:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message”: “Applicant assigned."</span><span class="p">,</span><span class="w"> 
+    </span><span class="s2">"password”: “0769019c"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ks_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">32029</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Si se produce un error de autenticación:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">401</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Token inválido"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Si se produce un error de parámetros:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"No se incluyó &lt;parámetro&gt;"</span><span class="w"> </span><span class="err">ó</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rut inválido"</span><span class="w"> </span><span class="err">ó</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KS &lt;parámetro&gt; inexistente"</span><span class="w"> </span><span class="err">ó</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"nombres"</span><span class="p">:[</span><span class="w">
+              </span><span class="s2">"No puede estar en blanco"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"apellido_paterno"</span><span class="p">:[</span><span class="w">
+              </span><span class="s2">"No puede estar en blanco"</span><span class="w">
+      </span><span class="p">],</span><span class="w">
+      </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+              </span><span class="s2">"No es una dirección de correo electrónico válida."</span><span class="w">
+      </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>Recibe un postulante y un cargo KS existente en el perfil de la empresa para que el sistema asigne los test respectivos.</p>
+<h3 id='request'>Request</h3>
+<p><code>POST https://app.keyclouding.cl/api/v1/company/assign_ks</code></p>
+<h3 id='parametros-de-la-consulta'>Parámetros de la consulta</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
-<th>Default</th>
-<th>Description</th>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>include_cats</td>
-<td>false</td>
-<td>If set to true, the result will also include cats.</td>
+<td>token</td>
+<td>obligatorio</td>
+<td>Token generado por la autenticación.</td>
 </tr>
 <tr>
-<td>available</td>
-<td>true</td>
-<td>If set to false, the result will include kittens that have already been adopted.</td>
+<td>user_id</td>
+<td>opcional</td>
+<td>ID del usuario de la plataforma bajo el cual estarán a cargo las asignaciones. Si no se especifica queda por defecto bajo alguno de los administradores de la empresa.</td>
+</tr>
+<tr>
+<td>dni</td>
+<td>obligatorio</td>
+<td>Documento de identidad del postulante.</td>
+</tr>
+<tr>
+<td>ks_code</td>
+<td>obligatorio</td>
+<td>Sigla que representa el KS a asignar. Debe ser la misma que la creada en el perfil de Keyclouding.</td>
+</tr>
+<tr>
+<td>country</td>
+<td>obligatorio</td>
+<td>País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra en el anexo.</td>
+</tr>
+<tr>
+<td>phone</td>
+<td>opcional</td>
+<td>Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country.</td>
+</tr>
+<tr>
+<td>nombres</td>
+<td>obligatorio</td>
+<td>Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescriben los nombres del postulante.</td>
+</tr>
+<tr>
+<td>apellido_paterno</td>
+<td>obligatorio</td>
+<td>Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.</td>
+</tr>
+<tr>
+<td>apellido_materno</td>
+<td>opcional</td>
+<td>En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.</td>
+</tr>
+<tr>
+<td>email</td>
+<td>obligatorio</td>
+<td>Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el email del postulante.</td>
+</tr>
+<tr>
+<td>genero</td>
+<td>opcional</td>
+<td>En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.</td>
+</tr>
+<tr>
+<td>fecha_nacimiento</td>
+<td>opcional</td>
+<td>En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.</td>
+</tr>
+<tr>
+<td>direccion_residencia</td>
+<td>opcional</td>
+<td>Dirección de residencia del postulante.</td>
+</tr>
+<tr>
+<td>proceso</td>
+<td>opcional</td>
+<td>Nombre del proceso del cual está participando el postulante.</td>
+</tr>
+</tbody></table>
+
+<p>La respuesta obtenida está en el siguiente formato:</p>
+<h3 id='respuesta-json'>Respuesta JSON</h3>
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>Resultado de la publicación de un nuevo postulante. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).</td>
+</tr>
+<tr>
+<td>ks_id</td>
+<td>Identificador único de la asignación del KS.</td>
+</tr>
+<tr>
+<td>password</td>
+<td>Clave del postulante.</td>
+</tr>
+<tr>
+<td>message</td>
+<td>Mensaje indicando el estado de la solicitud.</td>
 </tr>
 </tbody></table>
 
 <aside class="success">
-Remember — a happy kitten is an authenticated kitten!
+Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </aside>
-<h2 id='get-a-specific-kitten'>Get a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<h2 id='consulta-de-resultados'>Consulta de resultados</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/results_ks?token=AfTzE7BpcORyp6fN&amp;ks_id=32029"</span>
 </code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Si la respuesta es satisfactoria:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Max"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"breed"</span><span class="p">:</span><span class="w"> </span><span class="s2">"unknown"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"fluffiness"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"cuteness"</span><span class="p">:</span><span class="w"> </span><span class="mi">10</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"estado_ks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rendido"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"nota"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.5"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"rango"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Poco satisfactorio"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"informe_resumen"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.amazons3.com/kc/235324234.pdf"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"informe_otros"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                          </span><span class="s2">"codigo_test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ARP"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"informe_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.amazons3.com/kc/12341.pdf"</span><span class="w"> 
+                </span><span class="p">},</span><span class="w">
+                </span><span class="p">{</span><span class="w">
+                          </span><span class="s2">"codigo_test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DCT"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"informe_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.amazons3.com/kc/12341.pdf"</span><span class="w"> 
+                </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w"> 
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>This endpoint retrieves a specific kitten.</p>
-
-<aside class="warning">Inside HTML code blocks like this one, you can't use Markdown, so use <code>&lt;code&gt;</code> blocks to denote code.</aside>
-<h3 id='http-request-2'>HTTP Request</h3>
-<p><code>GET http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters'>URL Parameters</h3>
+<blockquote>
+<p>Si la respuesta es satisfactoria, pero estado_ks es distinto de &quot;Rendido&quot;:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"estado_ks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Inválido"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"nota"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"rango"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"informe_resumen"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"informe_otros"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                          </span><span class="s2">"codigo_test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ARP"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"informe_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"null"</span><span class="w">
+                </span><span class="p">},</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                          </span><span class="s2">"codigo_test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DCT"</span><span class="p">,</span><span class="w">
+                    </span><span class="s2">"informe_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.amazons3.com/kc/12341.pdf"</span><span class="w">
+                </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w"> 
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Si se produce un error de autenticación:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">401</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Token inválido"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Si se produce un error de parámetros:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="w">  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Asignación inválida"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>Recibe ks_id y el sistema retorna los resultados de la rendición.</p>
+<h3 id='request-2'>Request</h3>
+<p><code>POST https://app.keyclouding.cl/api/v1/company/results_ks</code></p>
+<h3 id='parametros-de-la-consulta-2'>Parámetros de la consulta</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
-<th>Description</th>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to retrieve</td>
+<td>token</td>
+<td>obligatorio</td>
+<td>Token generado por la autenticación.</td>
+</tr>
+<tr>
+<td>ks_id</td>
+<td>obligatorio</td>
+<td>Identificador único de asignación, el mismo que fue retornado en la Asignación de Cargo.</td>
 </tr>
 </tbody></table>
-<h2 id='delete-a-specific-kitten'>Delete a Specific Kitten</h2><pre class="highlight ruby tab-ruby"><code><span class="nb">require</span> <span class="s1">'kittn'</span>
 
-<span class="n">api</span> <span class="o">=</span> <span class="no">Kittn</span><span class="o">::</span><span class="no">APIClient</span><span class="p">.</span><span class="nf">authorize!</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="p">.</span><span class="nf">kittens</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-<span class="n">api</span><span class="o">.</span><span class="n">kittens</span><span class="o">.</span><span class="n">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
-</code></pre><pre class="highlight shell tab-shell"><code>curl <span class="s2">"http://example.com/api/kittens/2"</span>
-  -X DELETE
-  -H <span class="s2">"Authorization: meowmeowmeow"</span>
-</code></pre><pre class="highlight javascript tab-javascript"><code><span class="kr">const</span> <span class="nx">kittn</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'kittn'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">api</span> <span class="o">=</span> <span class="nx">kittn</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="s1">'meowmeowmeow'</span><span class="p">);</span>
-<span class="kd">let</span> <span class="nx">max</span> <span class="o">=</span> <span class="nx">api</span><span class="p">.</span><span class="nx">kittens</span><span class="p">.</span><span class="k">delete</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<p>La respuesta obtenida está en el siguiente formato:</p>
+<h3 id='respuesta-json-2'>Respuesta JSON</h3>
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status</td>
+<td>Resultado de la publicación de un nuevo postulante. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).</td>
+</tr>
+<tr>
+<td>estado_ks</td>
+<td>Estado de la rendición del KS, el cual puede tomar los valores “Rendido”,”Inválido”, “Inconsistente”,“En Proceso” ó “Eliminado”.</td>
+</tr>
+<tr>
+<td>nota</td>
+<td>Nota obtenida en el KS ó null si el estado_ks es distinto de “Rendido”.</td>
+</tr>
+<tr>
+<td>rango</td>
+<td>Texto que indica si la persona es muy adecuada, adecuada, aceptable o poco satisfactoria para el cargo ó null si el estado_ks es distinto de “Rendido”.</td>
+</tr>
+<tr>
+<td>informe_ks_url</td>
+<td>URL donde está alojado el informe PDF del resultado del KS ó null si el estado_ks es distinto de “Rendido”.</td>
+</tr>
+<tr>
+<td>informes_parciales</td>
+<td>JSON Array con los códigos de los test y sus respectivas URL donde está alojado del informe PDF del resultado del test parcial, ó null si el estado_ks es distinto de “Rendido”.</td>
+</tr>
+</tbody></table>
+<h2 id='lista-de-key-scorings-cargos-activos'>Lista de Key Scorings (cargos) activos</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/list_ks?token=AfTzE7BpcORyp6fN"</span>
 </code></pre>
 <blockquote>
-<p>The above command returns JSON structured like this:</p>
+<p>Si la respuesta es satisfactoria:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"deleted"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">":("</span><span class="w">
-</span><span class="p">}</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"ks_list"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">165</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ks_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TELEM"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"nombre"</span><span class="p">:</span><span class="w"> </span><span class="s2">"TELEMARKETING"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"tests"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">7</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"codigo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CIE"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"nombre"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Comprensión de Instrucciones Escritas"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"tiempo"</span><span class="p">:</span><span class="w"> </span><span class="mi">8</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"estado"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Activo"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"contra_reloj"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"codigo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ARP"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"nombre"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Aprendizaje y Resolución de Problemas"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"tiempo"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"estado"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Activo"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"contra_reloj"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> 
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">158</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"ks_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AUX"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"nombre"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AUXILIAR"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"tests"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">13</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"codigo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CET"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"nombre"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Comportamiento de Equipos de Trabajo"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"tiempo"</span><span class="p">:</span><span class="w"> </span><span class="mi">30</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"estado"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Activo"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"contra_reloj"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="w">
+          </span><span class="p">},</span><span class="w">
+          </span><span class="p">{</span><span class="w">
+            </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">4</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"codigo"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ARP"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"nombre"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Aprendizaje y Resolución de Problemas"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"tiempo"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"estado"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Activo"</span><span class="p">,</span><span class="w">
+            </span><span class="s2">"contra_reloj"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w"> 
+          </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>This endpoint deletes a specific kitten.</p>
-<h3 id='http-request-3'>HTTP Request</h3>
-<p><code>DELETE http://example.com/kittens/&lt;ID&gt;</code></p>
-<h3 id='url-parameters-2'>URL Parameters</h3>
+<blockquote>
+<p>Si se produce un error de autenticación:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">401</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Token inválido"</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>Recibe el token de autentificación de la empresa y retorna todos los KS (cargos) activos.</p>
+<h3 id='request-3'>Request</h3>
+<p><code>POST https://app.keyclouding.cl/api/v1/company/list_ks</code></p>
+<h3 id='parametros-de-la-consulta-3'>Parámetros de la consulta</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
-<th>Description</th>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>ID</td>
-<td>The ID of the kitten to delete</td>
+<td>token</td>
+<td>obligatorio</td>
+<td>Token generado por la autenticación.</td>
 </tr>
 </tbody></table>
-<h1 id='errors'>Errors</h1>
-<aside class="notice">
-This error section is stored in a separate file in <code>includes/_errors.md</code>. Slate allows you to optionally separate out your docs into many files...just save them to the <code>includes</code> folder and add them to the top of your <code>index.md</code>'s frontmatter. Files are included in the order listed.
-</aside>
 
-<p>The Kittn API uses the following error codes:</p>
-
+<p>La respuesta obtenida está en el siguiente formato:</p>
+<h3 id='respuesta-json-3'>Respuesta JSON</h3>
 <table><thead>
 <tr>
-<th>Error Code</th>
-<th>Meaning</th>
+<th>Parámetro</th>
+<th>Descripción</th>
 </tr>
 </thead><tbody>
 <tr>
-<td>400</td>
-<td>Bad Request -- Your request is invalid.</td>
+<td>status</td>
+<td>Resultado de la consulta. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).</td>
 </tr>
 <tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
+<td>ks_list</td>
+<td>Lista con todos los KS activos y algunos parametros.</td>
 </tr>
 </tbody></table>
+
+<p>Los parámetros anteriormente señalados se encuentran a continuación:</p>
+
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>ID del KS.</td>
+</tr>
+<tr>
+<td>ks_code</td>
+<td>Código del KS.</td>
+</tr>
+<tr>
+<td>nombre</td>
+<td>Nombre del KS.</td>
+</tr>
+<tr>
+<td>tests</td>
+<td>Lista de tests correspondientes al ks y algunos parámetros de cada test tales como id, código, nombre, tiempo, estado y contra_reloj.</td>
+</tr>
+</tbody></table>
+<h2 id='creacion-de-webhook'>Creación de Webhook</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&amp;callback_url=https://www.google.com/&amp;entity_model=CpcAssignment"</span>
+</code></pre>
+<blockquote>
+<p>Si la respuesta es satisfactoria pero ya existe webhook para la entidad seleccionada:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"messages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cannot create webhook with the same entity"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"is_success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"params"</span><span class="p">:{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"callback_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.google.com/"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"entity_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CpcAssignment"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"company_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">649</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-10-23T13:37:52.174-03:00"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-10-23T13:37:52.174-03:00"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Si se produce un error de parámetros:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"messages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cannot create webhook"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"is_success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"entity_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CpcAssignment"</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+      </span><span class="s2">"errors"</span><span class="p">:{</span><span class="w">
+        </span><span class="s2">"callback_url"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+          </span><span class="s2">"No puede estar en blanco"</span><span class="p">,</span><span class="w">
+          </span><span class="s2">"No es válido"</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>Permite a un sistema suscribirse a actualizaciones sobre un modelo de KeyClouding. Al crear un WebHook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. La solicitud POST a la callback_url se enviará ante cualquier actualización de las instancias de la organización del modelo suscrito, y se agregarán los siguientes parámetros:</p>
+
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>messages</td>
+<td>Mensaje sobre el cambio.</td>
+</tr>
+<tr>
+<td>is_success</td>
+<td>Si la modificación se realizó con éxito o no.</td>
+</tr>
+<tr>
+<td>data[ks_id]</td>
+<td>ID de la instancia modificada</td>
+</tr>
+</tbody></table>
+<h3 id='request-4'>Request</h3>
+<p><code>POST https://app.keyclouding.cl/api/v1/webhook/endpoints</code></p>
+<h3 id='parametros-de-la-consulta-4'>Parámetros de la consulta</h3>
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token</td>
+<td>obligatorio</td>
+<td>Token generado por la autenticación.</td>
+</tr>
+<tr>
+<td>callback_url</td>
+<td>obligatorio</td>
+<td>URL a la cual se efectuará la consulta POST ante una modificación de alguna instancia del modelo suscrito.</td>
+</tr>
+<tr>
+<td>entity_model</td>
+<td>obligatorio</td>
+<td>Nombre del modelo al cual se quiere suscribir (e.g &quot;CpcAssignment&quot;)</td>
+</tr>
+</tbody></table>
+
+<p>La respuesta obtenida está en el siguiente formato:</p>
+<h3 id='respuesta-json-4'>Respuesta JSON</h3>
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>messages</td>
+<td>Mensaje indicando el estado de la solicitud.</td>
+</tr>
+<tr>
+<td>is_success</td>
+<td>Indica si la creación del webhook fue o no exitosa.</td>
+</tr>
+<tr>
+<td>data</td>
+<td>JSON array con distintos parámetros.</td>
+</tr>
+</tbody></table>
+
+<p>Los parámetros anteriormente señalados se encuentran a continuación:</p>
+
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>ID del webhook creado en el sistema.</td>
+</tr>
+<tr>
+<td>callback_url</td>
+<td>URL proporcionada para realizar las llamadas de callback.</td>
+</tr>
+<tr>
+<td>entity_model</td>
+<td>Modelo suscrito por el webhook.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Fecha de creación del webhook.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>Fecha de actualización de webhook.</td>
+</tr>
+</tbody></table>
+<h2 id='listar-webhooks-existentes'>Listar Webhooks existentes</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&amp;id=43"</span>
+</code></pre>
+<blockquote>
+<p>Si la respuesta es satisfactoria:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"messages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"webhook deleted Successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"is_success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Si se produce un error de parámetros:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"messages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cannot find webhook"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"is_success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>Permite obtener una lista con los webhooks existentes de la entidad o un mensaje informando que no posee ninguno en caso contrario.</p>
+<h3 id='request-5'>Request</h3>
+<p><code>GET https://app.keyclouding.cl/api/v1/webhook/endpoints</code></p>
+<h3 id='parametros-de-la-consulta-5'>Parámetros de la consulta</h3>
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token</td>
+<td>obligatorio</td>
+<td>Token generado por la autenticación.</td>
+</tr>
+</tbody></table>
+
+<p>La respuesta obtenida está en el siguiente formato:</p>
+<h3 id='respuesta-json-5'>Respuesta JSON</h3>
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>messages</td>
+<td>Mensaje indicando el estado de la solicitud.</td>
+</tr>
+<tr>
+<td>is_success</td>
+<td>Indica si la creación del webhook fue o no exitosa.</td>
+</tr>
+<tr>
+<td>data</td>
+<td>JSON array con distintos parámetros.</td>
+</tr>
+</tbody></table>
+
+<p>Los parámetros anteriormente señalados se encuentran a continuación:</p>
+
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>id</td>
+<td>ID del webhook creado en el sistema.</td>
+</tr>
+<tr>
+<td>callback_url</td>
+<td>URL proporcionada para realizar las llamadas de callback.</td>
+</tr>
+<tr>
+<td>entity_model</td>
+<td>Modelo suscrito por el webhook.</td>
+</tr>
+<tr>
+<td>created_at</td>
+<td>Fecha de creación del webhook.</td>
+</tr>
+<tr>
+<td>updated_at</td>
+<td>Fecha de actualización de webhook.</td>
+</tr>
+</tbody></table>
+<h2 id='eliminacion-de-webhook'>Eliminación de Webhook</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN"</span>
+</code></pre>
+<blockquote>
+<p>Si la respuesta es satisfactoria:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"messages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"webhook deleted Successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"is_success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Si se produce un error de parámetros:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"messages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Cannot find webhook"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"is_success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"params"</span><span class="p">:</span><span class="w"> </span><span class="s2">""</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<p>Permite eliminar un webhook asociado a un modelo del sistema, para dejar de recibir solicitudes al momendo de actualizaciones de instancias del modelo suscrito.</p>
+<h3 id='request-6'>Request</h3>
+<p><code>DELETE https://app.keyclouding.cl/api/v1/webhook/endpoints</code></p>
+<h3 id='parametros-de-la-consulta-6'>Parámetros de la consulta</h3>
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token</td>
+<td>obligatorio</td>
+<td>Token generado por la autenticación.</td>
+</tr>
+<tr>
+<td>id</td>
+<td>obligatorio</td>
+<td>Identificador único del webhook, el mismo que fue retornado en la Creación de Webhook.</td>
+</tr>
+</tbody></table>
+
+<p>La respuesta obtenida está en el siguiente formato:</p>
+<h3 id='respuesta-json-6'>Respuesta JSON</h3>
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>messages</td>
+<td>Mensaje indicando el estado de la solicitud.</td>
+</tr>
+<tr>
+<td>is_success</td>
+<td>Indica si la eliminación del webhook fue o no exitosa.</td>
+</tr>
+<tr>
+<td>data</td>
+<td>{}</td>
+</tr>
+</tbody></table>
+<h1 id='estandares-y-tecnologia'>Estándares y Tecnología</h1><h2 id='comunicacion'>Comunicación</h2>
+<p>La comunicación entre el sistema cliente y el servidor se realizará de la siguiente manera:</p>
+
+<p>1. La app cliente envía mediante POST una solicitud HTTPS a una URL específica determinada por el tipo de recurso requerido. La estructura de la URL será establecida por KeyClouding y la app cliente se adaptará a las rutas indicadas. </p>
+
+<p>2. El servidor procesa los parámetros POST y retorna una respuesta en JSON (JavaScript Object Notation); o error en caso de no poder responder a la solicitud.</p>
+
+<p>3. El cliente recibe la respuesta. Si es un error notifica al usuario (si corresponde). Si es una respuesta JSON, la deserializa y procesa los objetos de la respuesta.</p>
+<h2 id='tecnologia'>Tecnología</h2>
+<p>Toda la comunicación entre plataformas utilizará estándares REST y protocolo de intercambio de mensajes mediante JSON, por lo que la comunicación es transparente independiente de la plataforma cliente empleada. </p>
+
+<p>Por otro lado, el servidor posee servicios HTTPS y conectividad a internet, de tal manera de permitir la solicitud de recursos mediante URL.</p>
+<h1 id='justificacion-de-la-tecnologia'>Justificación de la Tecnología</h1>
+<p>Toda la comunicación entre el cliente y el servidor (C-S) se realiza mediante llamadas HTTP al servidor entregando los parámetros necesarios mediante POST. Esta forma de comunicación es utilizada ya que, por un lado, es transparente y multi-plataforma (cualquier aplicación con soporte para comunicación HTTP, independiente de la plataforma, puede comunicarse con la API del servidor), además de ser ampliamente soportada y reconocida. Por otro lado, al seguir el paradigma REST, el servidor procesa sólo cuando recibe una solicitud y no tiene que estar pendiente de conexiones entrantes, ya que el listening lo realiza el servidor web.</p>
+
+<p>La respuesta del servidor se serializa mediante JSON. Esto debido a que JSON es un mecanismo de codificación para el traspaso de mensajes entre sistemas que optimiza el proceso de transferencia y de codificación/decodificación. La razón de esto es que JSON serializa los objetos utilizando la menor cantidad de caracteres sin comprimir la información simplificando, a su vez, el proceso de codificación. Esto es muy importante, ya que los dispositivos móviles tienen conectividad y CPU limitadas.</p>
+
+<p>Finalmente, la combinación HTTP/JSON es ampliamente utilizada en aplicaciones de alto rendimiento y carga, como Facebook, Twitter, Instagram, etc; debido tanto a lo anteriormente planteado como al gran soporte que existe en la actualidad a estas tecnologías.</p>
+<h1 id='ambiente-de-prueba'>Ambiente de prueba</h1>
+<p>Durante el proceso de integración, se habilitará un ambiente de prueba para que el cliente pueda realizar solicitudes a la API libremente. El ambiente de pruebas no posee envío de emails para evitar potenciales errores en la comunicación de cara al cliente o al usuario. </p>
+
+<p>Es por esta razón, que se facilitará un usuario de prueba ficticio, junto con sus credenciales. Adicionalmente, se habilitará una API_KEY que funcionará exclusivamente en este ambiente. Una vez que las pruebas hayan concluido, se otorgará la API_KEY correspondiente al ambiente de producción. </p>
+
+<p>La URL del ambiente de pruebas mantiene la misma forma, pero cambia el host:
+<code>https://staging.keyclouding.cl/api/v1/</code></p>
 
       </div>
       <div class="dark-box">
           <div class="lang-selector">
                 <a href="#" data-language-name="shell">shell</a>
-                <a href="#" data-language-name="ruby">ruby</a>
-                <a href="#" data-language-name="python">python</a>
-                <a href="#" data-language-name="javascript">javascript</a>
           </div>
       </div>
     </div>
