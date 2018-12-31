@@ -49,12 +49,12 @@ Para efectos del documento, la aplicación cliente realizará solicitudes al ser
   }
 ]
 ```
-Para hacer uso de la API de Keyclouding, en toda consulta que se realiza al servidor se debe entregar un parámetro "token". Este se genera por medio de la autenticación y tiene una validez de 30 minutos.
+Para hacer uso de la API de KeyClouding, en toda consulta que se realiza al servidor se debe entregar un parámetro "token". Este se genera por medio de la autenticación y tiene una validez de 30 minutos.
 
-Para generar el token, se debe hacer un request con método POST al url
+Para generar el token, se debe hacer un request con método POST al URL
  `https://app.keyclouding.cl/api/v1/company/authentication`.
 
-Se debe entregar a este request un parámetro "secret", que es entregado a la compañía por Keyclouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.
+Se debe entregar a este request un parámetro "secret", que es entregado al usuario por KeyClouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.
 
 A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a "hola" y a posibles respuestas según el resultado obtenido.
 
@@ -65,7 +65,7 @@ A la derecha se muestra un ejemplo de autenticación donde el secret corresponde
 
 ## Asignación de Cargo
 ```shell
-"https://app.keyclouding.cl/api/v1/company/assign_ks?token=AfTzE7BpcORyp6fN&dni=13.433.615-3&ks_code=VET&country=CL"
+"https://app.keyclouding.cl/api/v1/company/assign_ks?token=AfTzE7BpcORyp6fN&dni=13.433.615-3&ks_code=VET&country=CL&nombres=Juan&apellido_paterno=Perez&email=juan@perez.cl"
 ```
 > Si la asignación es satisfactoria:
 
@@ -121,20 +121,20 @@ Recibe un postulante y un cargo KS existente en el perfil de la empresa para que
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
-token | obligatorio | Token generado por la autenticación.
-user_id | opcional | ID del usuario de la plataforma bajo el cual estarán a cargo las asignaciones. Si no se especifica queda por defecto bajo alguno de los administradores de la empresa.
-dni | obligatorio | Documento de identidad del postulante.
-ks_code | obligatorio | Sigla que representa el KS a asignar. Debe ser la misma que la creada en el perfil de Keyclouding.
-country | obligatorio | País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra en el anexo.
-phone | opcional | Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country.
-nombres | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescriben los nombres del postulante.
-apellido_paterno | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
-apellido_materno | opcional | En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
-email | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el email del postulante.
-genero | opcional | En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
-fecha_nacimiento | opcional | En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
-direccion_residencia | opcional | Dirección de residencia del postulante.
-proceso | opcional | Nombre del proceso del cual está participando el postulante.
+token (string) | obligatorio | Token generado por la autenticación.
+user_id (integer) | opcional | ID del usuario de la plataforma bajo el cual estarán a cargo las asignaciones. Si no se especifica queda por defecto bajo alguno de los administradores de la empresa.
+dni (string) | obligatorio | Documento de identidad del postulante.
+ks_code (string) | obligatorio | Sigla que representa el KS a asignar. Debe ser la misma que la creada en el perfil de KeyClouding.
+country (string) | obligatorio | País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra en el anexo.
+phone (string) | opcional | Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country.
+nombres (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescriben los nombres del postulante.
+apellido_paterno (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
+apellido_materno (string) | opcional | En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
+email (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el email del postulante.
+genero (string) | opcional | "Masculino" o "Femenino". En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
+fecha_nacimiento (string) | opcional | Formato dd-mm-yyyy. En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
+direccion_residencia (string) | opcional | Dirección de residencia del postulante.
+proceso (string) | opcional | Nombre del proceso del cual está participando el postulante.
 
 
 La respuesta obtenida está en el siguiente formato:
@@ -142,10 +142,10 @@ La respuesta obtenida está en el siguiente formato:
 
 Parámetro | Descripción
 --------- | -----------
-status | Resultado de la publicación de un nuevo postulante. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).
-ks_id | Identificador único de la asignación del KS.
-password | Clave del postulante.
-message | Mensaje indicando el estado de la solicitud.
+status (integer) | Resultado de la publicación de un nuevo postulante. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).
+ks_id (integer) | Identificador único de la asignación del KS.
+password (string) | Clave del postulante.
+message (string) | Mensaje indicando el estado de la solicitud.
 
 
 <aside class="success">
@@ -234,20 +234,20 @@ Recibe ks_id y el sistema retorna los resultados de la rendición.
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
-token | obligatorio | Token generado por la autenticación.
-ks_id | obligatorio | Identificador único de asignación, el mismo que fue retornado en la Asignación de Cargo.
+token (string) | obligatorio | Token generado por la autenticación.
+ks_id (integer) | obligatorio | Identificador único de asignación, el mismo que fue retornado en la Asignación de Cargo.
 
 La respuesta obtenida está en el siguiente formato:
 ### Respuesta JSON
 
 Parámetro | Descripción
 --------- | -----------
-status | Resultado de la publicación de un nuevo postulante. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).
-estado_ks | Estado de la rendición del KS, el cual puede tomar los valores “Rendido”,”Inválido”, “Inconsistente”,“En Proceso” ó “Eliminado”.
-nota | Nota obtenida en el KS ó null si el estado_ks es distinto de “Rendido”.
+status (integer) | Resultado de la publicación de un nuevo postulante. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).
+estado_ks (string) | Estado de la rendición del KS, el cual puede tomar los valores “Rendido”,”Inválido”, “Inconsistente”,“En Proceso” ó “Eliminado”.
+nota (string) | Nota obtenida en el KS ó null si el estado_ks es distinto de “Rendido”.
 rango | Texto que indica si la persona es muy adecuada, adecuada, aceptable o poco satisfactoria para el cargo ó null si el estado_ks es distinto de “Rendido”.
-informe_ks_url | URL donde está alojado el informe PDF del resultado del KS ó null si el estado_ks es distinto de “Rendido”.
-informes_parciales | JSON Array con los códigos de los test y sus respectivas URL donde está alojado del informe PDF del resultado del test parcial, ó null si el estado_ks es distinto de “Rendido”.
+informe_ks_url (string) | URL donde está alojado el informe PDF del resultado del KS ó null si el estado_ks es distinto de “Rendido”.
+informes_parciales (string) | JSON Array con los códigos de los test y sus respectivas URL donde está alojado del informe PDF del resultado del test parcial, ó null si el estado_ks es distinto de “Rendido”.
 
 ## Lista de Key Scorings (cargos) activos
 ```shell
@@ -331,23 +331,23 @@ Recibe el token de autentificación de la empresa y retorna todos los KS (cargos
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
-token | obligatorio | Token generado por la autenticación.
+token (string) | obligatorio | Token generado por la autenticación.
 
 La respuesta obtenida está en el siguiente formato:
 ### Respuesta JSON
 
 Parámetro | Descripción
 --------- | -----------
-status | Resultado de la consulta. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).
+status (integer) | Resultado de la consulta. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).
 ks_list | Lista con todos los KS activos y algunos parametros.
 
 Los parámetros anteriormente señalados se encuentran a continuación:
 
 Parámetro | Descripción
 --------- | -----------
-id | ID del KS.
-ks_code | Código del KS.
-nombre | Nombre del KS.
+id (integer) | ID del KS.
+ks_code (string) | Código del KS.
+nombre (string) | Nombre del KS.
 tests | Lista de tests correspondientes al ks y algunos parámetros de cada test tales como id, código, nombre, tiempo, estado y contra_reloj.
 
 ## Creación de Webhook
@@ -396,13 +396,13 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
   }
 ]
 ```
-Permite a un sistema suscribirse a actualizaciones sobre un modelo de KeyClouding. Al crear un WebHook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. La solicitud POST a la callback_url se enviará ante cualquier actualización de las instancias de la organización del modelo suscrito, y se agregarán los siguientes parámetros:
+Permite a un sistema suscribirse a actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. La solicitud POST a la callback_url se enviará ante cualquier actualización de las instancias de la organización del modelo suscrito, y se agregarán los siguientes parámetros:
 
 Parámetro | Descripción
 --------- | -----------
-messages | Mensaje sobre el cambio.
-is_success | Si la modificación se realizó con éxito o no.
-data[ks_id] | ID de la instancia modificada
+messages (string) | Mensaje sobre el cambio.
+is_success (boolean) | Si la modificación se realizó con éxito o no.
+data[ks_id] (integer) | ID de la instancia modificada
 
 ### Request
 
@@ -412,28 +412,28 @@ data[ks_id] | ID de la instancia modificada
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
-token | obligatorio | Token generado por la autenticación.
-callback_url | obligatorio | URL a la cual se efectuará la consulta POST ante una modificación de alguna instancia del modelo suscrito.
-entity_model | obligatorio | Nombre del modelo al cual se quiere suscribir (e.g "CpcAssignment")
+token (string) | obligatorio | Token generado por la autenticación.
+callback_url (string) | obligatorio | URL a la cual se efectuará la consulta POST ante una modificación de alguna instancia del modelo suscrito.
+entity_model (string) | obligatorio | Nombre del modelo al cual se quiere suscribir (e.g "CpcAssignment")
 
 La respuesta obtenida está en el siguiente formato:
 ### Respuesta JSON
 
 Parámetro | Descripción
 --------- | -----------
-messages | Mensaje indicando el estado de la solicitud.
-is_success | Indica si la creación del webhook fue o no exitosa.
+messages (string) | Mensaje indicando el estado de la solicitud.
+is_success (boolean) | Indica si la creación del webhook fue o no exitosa.
 data | JSON array con distintos parámetros.
 
 Los parámetros anteriormente señalados se encuentran a continuación:
 
 Parámetro | Descripción
 --------- | -----------
-id | ID del webhook creado en el sistema.
-callback_url | URL proporcionada para realizar las llamadas de callback.
-entity_model | Modelo suscrito por el webhook.
-created_at | Fecha de creación del webhook.
-updated_at | Fecha de actualización de webhook.
+id (integer) | ID del webhook creado en el sistema.
+callback_url (string) | URL proporcionada para realizar las llamadas de callback.
+entity_model (string) | Modelo suscrito por el webhook.
+created_at (string) | Fecha de creación del webhook.
+updated_at (string) | Fecha de actualización de webhook.
 
 ## Listar Webhooks existentes
 ```shell
@@ -474,26 +474,26 @@ Permite obtener una lista con los webhooks existentes de la entidad o un mensaje
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
-token | obligatorio | Token generado por la autenticación.
+token (string) | obligatorio | Token generado por la autenticación.
 
 La respuesta obtenida está en el siguiente formato:
 ### Respuesta JSON
 
 Parámetro | Descripción
 --------- | -----------
-messages | Mensaje indicando el estado de la solicitud.
-is_success | Indica si la creación del webhook fue o no exitosa.
+messages (string) | Mensaje indicando el estado de la solicitud.
+is_success (boolean) | Indica si la creación del webhook fue o no exitosa.
 data | JSON array con distintos parámetros.
 
 Los parámetros anteriormente señalados se encuentran a continuación:
 
 Parámetro | Descripción
 --------- | -----------
-id | ID del webhook creado en el sistema.
-callback_url | URL proporcionada para realizar las llamadas de callback.
-entity_model | Modelo suscrito por el webhook.
-created_at | Fecha de creación del webhook.
-updated_at | Fecha de actualización de webhook.
+id (boolean) | ID del webhook creado en el sistema.
+callback_url (string) | URL proporcionada para realizar las llamadas de callback.
+entity_model (string) | Modelo suscrito por el webhook.
+created_at (string) | Fecha de creación del webhook.
+updated_at (string) | Fecha de actualización de webhook.
 
 ## Eliminación de Webhook
 ```shell
@@ -524,7 +524,7 @@ updated_at | Fecha de actualización de webhook.
   }
 ]
 ```
-Permite eliminar un webhook asociado a un modelo del sistema, para dejar de recibir solicitudes al momendo de actualizaciones de instancias del modelo suscrito.
+Permite eliminar un webhook asociado a un modelo del sistema, para dejar de recibir solicitudes al momento de actualizaciones de instancias del modelo suscrito.
 
 ### Request
 
@@ -534,16 +534,16 @@ Permite eliminar un webhook asociado a un modelo del sistema, para dejar de reci
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
-token | obligatorio | Token generado por la autenticación.
-id | obligatorio | Identificador único del webhook, el mismo que fue retornado en la Creación de Webhook.
+token (string) | obligatorio | Token generado por la autenticación.
+id (integer) | obligatorio | Identificador único del webhook, el mismo que fue retornado en la Creación de Webhook.
 
 La respuesta obtenida está en el siguiente formato:
 ### Respuesta JSON
 
 Parámetro | Descripción
 --------- | -----------
-messages | Mensaje indicando el estado de la solicitud.
-is_success | Indica si la eliminación del webhook fue o no exitosa.
+messages (string) | Mensaje indicando el estado de la solicitud.
+is_success (boolean) | Indica si la eliminación del webhook fue o no exitosa.
 data | {}
 
 
@@ -556,7 +556,6 @@ La comunicación entre el sistema cliente y el servidor se realizará de la sigu
     1. La app cliente envía mediante POST una solicitud HTTPS a una URL específica determinada por el tipo de recurso requerido. La estructura de la URL será establecida por KeyClouding y la app cliente se adaptará a las rutas indicadas. 
 
     2. El servidor procesa los parámetros POST y retorna una respuesta en JSON (JavaScript Object Notation); o error en caso de no poder responder a la solicitud.
-
 
     3. El cliente recibe la respuesta. Si es un error notifica al usuario (si corresponde). Si es una respuesta JSON, la deserializa y procesa los objetos de la respuesta.
   
