@@ -245,7 +245,7 @@ Parámetro | Descripción
 status (integer) | Resultado de la publicación de un nuevo postulante. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).
 estado_ks (string) | Estado de la rendición del KS, el cual puede tomar los valores “Rendido”,”Inválido”, “Inconsistente”,“En Proceso” ó “Eliminado”.
 nota (string) | Nota obtenida en el KS ó null si el estado_ks es distinto de “Rendido”.
-rango | Texto que indica si la persona es muy adecuada, adecuada, aceptable o poco satisfactoria para el cargo ó null si el estado_ks es distinto de “Rendido”.
+rango (string) | Texto que indica si la persona es muy adecuada, adecuada, aceptable o poco satisfactoria para el cargo ó null si el estado_ks es distinto de “Rendido”.
 informe_ks_url (string) | URL donde está alojado el informe PDF del resultado del KS ó null si el estado_ks es distinto de “Rendido”.
 informes_parciales (string) | JSON Array con los códigos de los test y sus respectivas URL donde está alojado del informe PDF del resultado del test parcial, ó null si el estado_ks es distinto de “Rendido”.
 
