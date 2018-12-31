@@ -295,15 +295,15 @@
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>Para hacer uso de la API de Keyclouding, en toda consulta que se realiza al servidor se debe entregar un parámetro &quot;token&quot;. Este se genera por medio de la autenticación y tiene una validez de 30 minutos.</p>
+<p>Para hacer uso de la API de KeyClouding, en toda consulta que se realiza al servidor se debe entregar un parámetro &quot;token&quot;. Este se genera por medio de la autenticación y tiene una validez de 30 minutos.</p>
 
-<p>Para generar el token, se debe hacer un request con método POST al url
+<p>Para generar el token, se debe hacer un request con método POST al URL
  <code>https://app.keyclouding.cl/api/v1/company/authentication</code>.</p>
 
-<p>Se debe entregar a este request un parámetro &quot;secret&quot;, que es entregado a la compañía por Keyclouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.</p>
+<p>Se debe entregar a este request un parámetro &quot;secret&quot;, que es entregado al usuario por KeyClouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.</p>
 
 <p>A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a &quot;hola&quot; y a posibles respuestas según el resultado obtenido.</p>
-<h1 id='consultas-y-funcionalidades'>Consultas y Funcionalidades</h1><h2 id='asignacion-de-cargo'>Asignación de Cargo</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/assign_ks?token=AfTzE7BpcORyp6fN&amp;dni=13.433.615-3&amp;ks_code=VET&amp;country=CL"</span>
+<h1 id='consultas-y-funcionalidades'>Consultas y Funcionalidades</h1><h2 id='asignacion-de-cargo'>Asignación de Cargo</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/assign_ks?token=AfTzE7BpcORyp6fN&amp;dni=13.433.615-3&amp;ks_code=VET&amp;country=CL&amp;nombres=Juan&amp;apellido_paterno=Perez&amp;email=juan@perez.cl"</span>
 </code></pre>
 <blockquote>
 <p>Si la asignación es satisfactoria:</p>
@@ -360,72 +360,72 @@
 </tr>
 </thead><tbody>
 <tr>
-<td>token</td>
+<td>token (string)</td>
 <td>obligatorio</td>
 <td>Token generado por la autenticación.</td>
 </tr>
 <tr>
-<td>user_id</td>
+<td>user_id (integer)</td>
 <td>opcional</td>
 <td>ID del usuario de la plataforma bajo el cual estarán a cargo las asignaciones. Si no se especifica queda por defecto bajo alguno de los administradores de la empresa.</td>
 </tr>
 <tr>
-<td>dni</td>
+<td>dni (string)</td>
 <td>obligatorio</td>
 <td>Documento de identidad del postulante.</td>
 </tr>
 <tr>
-<td>ks_code</td>
+<td>ks_code (string)</td>
 <td>obligatorio</td>
-<td>Sigla que representa el KS a asignar. Debe ser la misma que la creada en el perfil de Keyclouding.</td>
+<td>Sigla que representa el KS a asignar. Debe ser la misma que la creada en el perfil de KeyClouding.</td>
 </tr>
 <tr>
-<td>country</td>
+<td>country (string)</td>
 <td>obligatorio</td>
 <td>País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra en el anexo.</td>
 </tr>
 <tr>
-<td>phone</td>
+<td>phone (string)</td>
 <td>opcional</td>
 <td>Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country.</td>
 </tr>
 <tr>
-<td>nombres</td>
+<td>nombres (string)</td>
 <td>obligatorio</td>
 <td>Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescriben los nombres del postulante.</td>
 </tr>
 <tr>
-<td>apellido_paterno</td>
+<td>apellido_paterno (string)</td>
 <td>obligatorio</td>
 <td>Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.</td>
 </tr>
 <tr>
-<td>apellido_materno</td>
+<td>apellido_materno (string)</td>
 <td>opcional</td>
 <td>En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.</td>
 </tr>
 <tr>
-<td>email</td>
+<td>email (string)</td>
 <td>obligatorio</td>
 <td>Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el email del postulante.</td>
 </tr>
 <tr>
-<td>genero</td>
+<td>genero (string)</td>
 <td>opcional</td>
-<td>En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.</td>
+<td>&quot;Masculino&quot; o &quot;Femenino&quot;. En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.</td>
 </tr>
 <tr>
-<td>fecha_nacimiento</td>
+<td>fecha_nacimiento (string)</td>
 <td>opcional</td>
-<td>En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.</td>
+<td>Formato dd-mm-yyyy. En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.</td>
 </tr>
 <tr>
-<td>direccion_residencia</td>
+<td>direccion_residencia (string)</td>
 <td>opcional</td>
 <td>Dirección de residencia del postulante.</td>
 </tr>
 <tr>
-<td>proceso</td>
+<td>proceso (string)</td>
 <td>opcional</td>
 <td>Nombre del proceso del cual está participando el postulante.</td>
 </tr>
@@ -440,19 +440,19 @@
 </tr>
 </thead><tbody>
 <tr>
-<td>status</td>
+<td>status (integer)</td>
 <td>Resultado de la publicación de un nuevo postulante. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).</td>
 </tr>
 <tr>
-<td>ks_id</td>
+<td>ks_id (integer)</td>
 <td>Identificador único de la asignación del KS.</td>
 </tr>
 <tr>
-<td>password</td>
+<td>password (string)</td>
 <td>Clave del postulante.</td>
 </tr>
 <tr>
-<td>message</td>
+<td>message (string)</td>
 <td>Mensaje indicando el estado de la solicitud.</td>
 </tr>
 </tbody></table>
@@ -539,12 +539,12 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>token</td>
+<td>token (string)</td>
 <td>obligatorio</td>
 <td>Token generado por la autenticación.</td>
 </tr>
 <tr>
-<td>ks_id</td>
+<td>ks_id (integer)</td>
 <td>obligatorio</td>
 <td>Identificador único de asignación, el mismo que fue retornado en la Asignación de Cargo.</td>
 </tr>
@@ -559,15 +559,15 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>status</td>
+<td>status (integer)</td>
 <td>Resultado de la publicación de un nuevo postulante. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).</td>
 </tr>
 <tr>
-<td>estado_ks</td>
+<td>estado_ks (string)</td>
 <td>Estado de la rendición del KS, el cual puede tomar los valores “Rendido”,”Inválido”, “Inconsistente”,“En Proceso” ó “Eliminado”.</td>
 </tr>
 <tr>
-<td>nota</td>
+<td>nota (string)</td>
 <td>Nota obtenida en el KS ó null si el estado_ks es distinto de “Rendido”.</td>
 </tr>
 <tr>
@@ -575,11 +575,11 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 <td>Texto que indica si la persona es muy adecuada, adecuada, aceptable o poco satisfactoria para el cargo ó null si el estado_ks es distinto de “Rendido”.</td>
 </tr>
 <tr>
-<td>informe_ks_url</td>
+<td>informe_ks_url (string)</td>
 <td>URL donde está alojado el informe PDF del resultado del KS ó null si el estado_ks es distinto de “Rendido”.</td>
 </tr>
 <tr>
-<td>informes_parciales</td>
+<td>informes_parciales (string)</td>
 <td>JSON Array con los códigos de los test y sus respectivas URL donde está alojado del informe PDF del resultado del test parcial, ó null si el estado_ks es distinto de “Rendido”.</td>
 </tr>
 </tbody></table>
@@ -664,7 +664,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>token</td>
+<td>token (string)</td>
 <td>obligatorio</td>
 <td>Token generado por la autenticación.</td>
 </tr>
@@ -679,7 +679,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>status</td>
+<td>status (integer)</td>
 <td>Resultado de la consulta. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).</td>
 </tr>
 <tr>
@@ -697,15 +697,15 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>id</td>
+<td>id (integer)</td>
 <td>ID del KS.</td>
 </tr>
 <tr>
-<td>ks_code</td>
+<td>ks_code (string)</td>
 <td>Código del KS.</td>
 </tr>
 <tr>
-<td>nombre</td>
+<td>nombre (string)</td>
 <td>Nombre del KS.</td>
 </tr>
 <tr>
@@ -756,7 +756,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>Permite a un sistema suscribirse a actualizaciones sobre un modelo de KeyClouding. Al crear un WebHook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. La solicitud POST a la callback_url se enviará ante cualquier actualización de las instancias de la organización del modelo suscrito, y se agregarán los siguientes parámetros:</p>
+<p>Permite a un sistema suscribirse a actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. La solicitud POST a la callback_url se enviará ante cualquier actualización de las instancias de la organización del modelo suscrito, y se agregarán los siguientes parámetros:</p>
 
 <table><thead>
 <tr>
@@ -765,15 +765,15 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>messages</td>
+<td>messages (string)</td>
 <td>Mensaje sobre el cambio.</td>
 </tr>
 <tr>
-<td>is_success</td>
+<td>is_success (boolean)</td>
 <td>Si la modificación se realizó con éxito o no.</td>
 </tr>
 <tr>
-<td>data[ks_id]</td>
+<td>data<a href="integer">ks_id</a></td>
 <td>ID de la instancia modificada</td>
 </tr>
 </tbody></table>
@@ -788,17 +788,17 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>token</td>
+<td>token (string)</td>
 <td>obligatorio</td>
 <td>Token generado por la autenticación.</td>
 </tr>
 <tr>
-<td>callback_url</td>
+<td>callback_url (string)</td>
 <td>obligatorio</td>
 <td>URL a la cual se efectuará la consulta POST ante una modificación de alguna instancia del modelo suscrito.</td>
 </tr>
 <tr>
-<td>entity_model</td>
+<td>entity_model (string)</td>
 <td>obligatorio</td>
 <td>Nombre del modelo al cual se quiere suscribir (e.g &quot;CpcAssignment&quot;)</td>
 </tr>
@@ -813,11 +813,11 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>messages</td>
+<td>messages (string)</td>
 <td>Mensaje indicando el estado de la solicitud.</td>
 </tr>
 <tr>
-<td>is_success</td>
+<td>is_success (boolean)</td>
 <td>Indica si la creación del webhook fue o no exitosa.</td>
 </tr>
 <tr>
@@ -835,23 +835,23 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>id</td>
+<td>id (integer)</td>
 <td>ID del webhook creado en el sistema.</td>
 </tr>
 <tr>
-<td>callback_url</td>
+<td>callback_url (string)</td>
 <td>URL proporcionada para realizar las llamadas de callback.</td>
 </tr>
 <tr>
-<td>entity_model</td>
+<td>entity_model (string)</td>
 <td>Modelo suscrito por el webhook.</td>
 </tr>
 <tr>
-<td>created_at</td>
+<td>created_at (string)</td>
 <td>Fecha de creación del webhook.</td>
 </tr>
 <tr>
-<td>updated_at</td>
+<td>updated_at (string)</td>
 <td>Fecha de actualización de webhook.</td>
 </tr>
 </tbody></table>
@@ -893,7 +893,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>token</td>
+<td>token (string)</td>
 <td>obligatorio</td>
 <td>Token generado por la autenticación.</td>
 </tr>
@@ -908,11 +908,11 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>messages</td>
+<td>messages (string)</td>
 <td>Mensaje indicando el estado de la solicitud.</td>
 </tr>
 <tr>
-<td>is_success</td>
+<td>is_success (boolean)</td>
 <td>Indica si la creación del webhook fue o no exitosa.</td>
 </tr>
 <tr>
@@ -930,23 +930,23 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>id</td>
+<td>id (boolean)</td>
 <td>ID del webhook creado en el sistema.</td>
 </tr>
 <tr>
-<td>callback_url</td>
+<td>callback_url (string)</td>
 <td>URL proporcionada para realizar las llamadas de callback.</td>
 </tr>
 <tr>
-<td>entity_model</td>
+<td>entity_model (string)</td>
 <td>Modelo suscrito por el webhook.</td>
 </tr>
 <tr>
-<td>created_at</td>
+<td>created_at (string)</td>
 <td>Fecha de creación del webhook.</td>
 </tr>
 <tr>
-<td>updated_at</td>
+<td>updated_at (string)</td>
 <td>Fecha de actualización de webhook.</td>
 </tr>
 </tbody></table>
@@ -976,7 +976,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>Permite eliminar un webhook asociado a un modelo del sistema, para dejar de recibir solicitudes al momendo de actualizaciones de instancias del modelo suscrito.</p>
+<p>Permite eliminar un webhook asociado a un modelo del sistema, para dejar de recibir solicitudes al momento de actualizaciones de instancias del modelo suscrito.</p>
 <h3 id='request-6'>Request</h3>
 <p><code>DELETE https://app.keyclouding.cl/api/v1/webhook/endpoints</code></p>
 <h3 id='parametros-de-la-consulta-6'>Parámetros de la consulta</h3>
@@ -988,12 +988,12 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>token</td>
+<td>token (string)</td>
 <td>obligatorio</td>
 <td>Token generado por la autenticación.</td>
 </tr>
 <tr>
-<td>id</td>
+<td>id (integer)</td>
 <td>obligatorio</td>
 <td>Identificador único del webhook, el mismo que fue retornado en la Creación de Webhook.</td>
 </tr>
@@ -1008,11 +1008,11 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </thead><tbody>
 <tr>
-<td>messages</td>
+<td>messages (string)</td>
 <td>Mensaje indicando el estado de la solicitud.</td>
 </tr>
 <tr>
-<td>is_success</td>
+<td>is_success (boolean)</td>
 <td>Indica si la eliminación del webhook fue o no exitosa.</td>
 </tr>
 <tr>
