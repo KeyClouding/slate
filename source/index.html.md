@@ -443,11 +443,6 @@ updated_at (string) | Fecha de actualización de webhook.
 
 ```json
 [
-  {
-    "messages": "webhook deleted Successfully",
-    "is_success": true,
-    "data": { }
-  }
 ]
 ```
 
