@@ -437,7 +437,7 @@ updated_at (string) | Fecha de actualización de webhook.
 
 ## Listar Webhooks existentes
 ```shell
-"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&id=43"
+"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN"
 ```
 > Si la respuesta es satisfactoria:
 
@@ -497,7 +497,7 @@ updated_at (string) | Fecha de actualización de webhook.
 
 ## Eliminación de Webhook
 ```shell
-"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN"
+"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&id=43"
 ```
 > Si la respuesta es satisfactoria:
 
