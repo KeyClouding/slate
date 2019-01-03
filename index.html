@@ -302,7 +302,7 @@
 
 <p>Se debe entregar a este request un parámetro &quot;secret&quot;, que es entregado al usuario por KeyClouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.</p>
 
-<p>A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a &quot;hola&quot; y a posibles respuestas según el resultado obtenido.</p>
+<p>A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a &quot;hola&quot; y posibles respuestas según el resultado obtenido.</p>
 <h1 id='consultas-y-funcionalidades'>Consultas y Funcionalidades</h1><h2 id='asignacion-de-cargo'>Asignación de Cargo</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/assign_ks?token=AfTzE7BpcORyp6fN&amp;dni=13.433.615-3&amp;ks_code=VET&amp;country=CL&amp;nombres=Juan&amp;apellido_paterno=Perez&amp;email=juan@perez.cl"</span>
 </code></pre>
 <blockquote>
@@ -382,12 +382,12 @@
 <tr>
 <td>country (string)</td>
 <td>obligatorio</td>
-<td>País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra en el anexo.</td>
+<td>País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra <a href="https://es.wikipedia.org/wiki/ISO_3166-1">aquí</a> (tenga cuidado en elegir el código correspondiente de 2 letras).</td>
 </tr>
 <tr>
 <td>phone (string)</td>
 <td>opcional</td>
-<td>Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country.</td>
+<td>Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country. Este se encuentra en la misma tabla de código de países.</td>
 </tr>
 <tr>
 <td>nombres (string)</td>
@@ -426,7 +426,7 @@
 </tr>
 <tr>
 <td>proceso (string)</td>
-<td>opcional</td>
+<td>obligatorio</td>
 <td>Nombre del proceso del cual está participando el postulante.</td>
 </tr>
 </tbody></table>
@@ -449,7 +449,7 @@
 </tr>
 <tr>
 <td>password (string)</td>
-<td>Clave del postulante.</td>
+<td>Contraseña del postulante.</td>
 </tr>
 <tr>
 <td>message (string)</td>
@@ -527,7 +527,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>Recibe ks_id y el sistema retorna los resultados de la rendición.</p>
+<p>Recibe ks_id (identificador único del KS) y el sistema retorna los resultados de la rendición.</p>
 <h3 id='request-2'>Request</h3>
 <p><code>POST https://app.keyclouding.cl/api/v1/company/results_ks</code></p>
 <h3 id='parametros-de-la-consulta-2'>Parámetros de la consulta</h3>
@@ -564,7 +564,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 <tr>
 <td>estado_ks (string)</td>
-<td>Estado de la rendición del KS, el cual puede tomar los valores “Rendido”,”Inválido”, “Inconsistente”,“En Proceso” ó “Eliminado”.</td>
+<td>Estado de la rendición del KS, el cual puede tomar los valores “Rendido”, ”Inválido”, “Inconsistente”, “En Proceso” ó “Eliminado”.</td>
 </tr>
 <tr>
 <td>nota (string)</td>
@@ -713,8 +713,28 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 <td>Lista de tests correspondientes al ks y algunos parámetros de cada test tales como id, código, nombre, tiempo, estado y contra_reloj.</td>
 </tr>
 </tbody></table>
-<h2 id='creacion-de-webhook'>Creación de Webhook</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&amp;callback_url=https://www.google.com/&amp;entity_model=CpcAssignment"</span>
+<h2 id='creacion-de-webhook'>Creación de Webhook</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&amp;callback_url=http://localhost:3000/webhooks&amp;entity_model=CpcAssignment"</span>
 </code></pre>
+<blockquote>
+<p>Si la respuesta es satisfactoria:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"messages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Webhook created successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"is_success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"params"</span><span class="p">:{</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"callback_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:3000/webhooks"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"entity_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CpcAssignment"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"company_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">79</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-10-23T13:37:52.174-03:00"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-10-23T13:37:52.174-03:00"</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
 <blockquote>
 <p>Si la respuesta es satisfactoria pero ya existe webhook para la entidad seleccionada:</p>
 </blockquote>
@@ -724,10 +744,10 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
     </span><span class="s2">"is_success"</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w">
     </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
       </span><span class="s2">"params"</span><span class="p">:{</span><span class="w">
-        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">1</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"callback_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.google.com/"</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"callback_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:3000/webhooks"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"entity_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CpcAssignment"</span><span class="p">,</span><span class="w">
-        </span><span class="s2">"company_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">649</span><span class="p">,</span><span class="w">
+        </span><span class="s2">"company_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">79</span><span class="p">,</span><span class="w">
         </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-10-23T13:37:52.174-03:00"</span><span class="p">,</span><span class="w">
         </span><span class="s2">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2018-10-23T13:37:52.174-03:00"</span><span class="w">
       </span><span class="p">}</span><span class="w">
@@ -773,7 +793,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 <td>Si la modificación se realizó con éxito o no.</td>
 </tr>
 <tr>
-<td>data<a href="integer">ks_id</a></td>
+<td>data [ks_id] (integer)</td>
 <td>ID de la instancia modificada</td>
 </tr>
 </tbody></table>
@@ -855,12 +875,28 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 <td>Fecha de actualización de webhook.</td>
 </tr>
 </tbody></table>
-<h2 id='listar-webhooks-existentes'>Listar Webhooks existentes</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN"</span>
+<h2 id='listar-webhooks-existentes'>Listar Webhooks existentes</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/list_webhooks?token=AfTzE7BpcORyp6fN"</span>
 </code></pre>
 <blockquote>
 <p>Si la respuesta es satisfactoria:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"messages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"List of webhooks"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"is_success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="s2">"webhook"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+            </span><span class="p">{</span><span class="w">
+                </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">12</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"callback_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"http://localhost:3000/webhooks"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"entity_model"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CpcAssignment"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"company_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">79</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"created_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-03T13:16:18.732-03:00"</span><span class="p">,</span><span class="w">
+                </span><span class="s2">"updated_at"</span><span class="p">:</span><span class="w"> </span><span class="s2">"2019-01-03T13:16:18.732-03:00"</span><span class="w">
+            </span><span class="p">}</span><span class="w">
+        </span><span class="p">]</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
 <blockquote>
@@ -878,7 +914,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </span></code></pre>
 <p>Permite obtener una lista con los webhooks existentes de la entidad o un mensaje informando que no posee ninguno en caso contrario.</p>
 <h3 id='request-5'>Request</h3>
-<p><code>GET https://app.keyclouding.cl/api/v1/webhook/endpoints</code></p>
+<p><code>GET https://app.keyclouding.cl/api/v1/webhook/list_webhooks</code></p>
 <h3 id='parametros-de-la-consulta-5'>Parámetros de la consulta</h3>
 <table><thead>
 <tr>
@@ -952,7 +988,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
   </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"messages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"webhook deleted Successfully"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"messages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"webhook deleted successfully"</span><span class="p">,</span><span class="w">
     </span><span class="s2">"is_success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
     </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="p">}</span><span class="w">
   </span><span class="p">}</span><span class="w">
