@@ -56,7 +56,7 @@ Para generar el token, se debe hacer un request con método POST al URL
 
 Se debe entregar a este request un parámetro "secret", que es entregado al usuario por KeyClouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.
 
-A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a "hola" y a posibles respuestas según el resultado obtenido.
+A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a "hola" y posibles respuestas según el resultado obtenido.
 
 
 
@@ -125,8 +125,8 @@ token (string) | obligatorio | Token generado por la autenticación.
 user_id (integer) | opcional | ID del usuario de la plataforma bajo el cual estarán a cargo las asignaciones. Si no se especifica queda por defecto bajo alguno de los administradores de la empresa.
 dni (string) | obligatorio | Documento de identidad del postulante.
 ks_code (string) | obligatorio | Sigla que representa el KS a asignar. Debe ser la misma que la creada en el perfil de KeyClouding.
-country (string) | obligatorio | País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra en el anexo.
-phone (string) | opcional | Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country.
+country (string) | obligatorio | País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra [aquí](https://es.wikipedia.org/wiki/ISO_3166-1) (tenga cuidado en elegir el código correspondiente de 2 letras).
+phone (string) | opcional | Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country. Este se encuentra en la misma tabla de código de países.
 nombres (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescriben los nombres del postulante.
 apellido_paterno (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
 apellido_materno (string) | opcional | En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
@@ -134,7 +134,7 @@ email (string) | obligatorio | Obligatorio sólo si dni del postulante no había
 genero (string) | opcional | "Masculino" o "Femenino". En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
 fecha_nacimiento (string) | opcional | Formato dd-mm-yyyy. En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
 direccion_residencia (string) | opcional | Dirección de residencia del postulante.
-proceso (string) | opcional | Nombre del proceso del cual está participando el postulante.
+proceso (string) | obligatorio | Nombre del proceso del cual está participando el postulante.
 
 
 La respuesta obtenida está en el siguiente formato:
@@ -144,7 +144,7 @@ Parámetro | Descripción
 --------- | -----------
 status (integer) | Resultado de la publicación de un nuevo postulante. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).
 ks_id (integer) | Identificador único de la asignación del KS.
-password (string) | Clave del postulante.
+password (string) | Contraseña del postulante.
 message (string) | Mensaje indicando el estado de la solicitud.
 
 
@@ -224,7 +224,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   }
 ]
 ```
-Recibe ks_id y el sistema retorna los resultados de la rendición.
+Recibe ks_id (identificador único del KS) y el sistema retorna los resultados de la rendición.
 
 ### Request
 
@@ -243,7 +243,7 @@ La respuesta obtenida está en el siguiente formato:
 Parámetro | Descripción
 --------- | -----------
 status (integer) | Resultado de la publicación de un nuevo postulante. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).
-estado_ks (string) | Estado de la rendición del KS, el cual puede tomar los valores “Rendido”,”Inválido”, “Inconsistente”,“En Proceso” ó “Eliminado”.
+estado_ks (string) | Estado de la rendición del KS, el cual puede tomar los valores “Rendido”, ”Inválido”, “Inconsistente”, “En Proceso” ó “Eliminado”.
 nota (string) | Nota obtenida en el KS ó null si el estado_ks es distinto de “Rendido”.
 rango (string) | Texto que indica si la persona es muy adecuada, adecuada, aceptable o poco satisfactoria para el cargo ó null si el estado_ks es distinto de “Rendido”.
 informe_ks_url (string) | URL donde está alojado el informe PDF del resultado del KS ó null si el estado_ks es distinto de “Rendido”.
@@ -352,8 +352,29 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
 
 ## Creación de Webhook
 ```shell
-"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&callback_url=https://www.google.com/&entity_model=CpcAssignment"
+"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&callback_url=http://localhost:3000/webhooks&entity_model=CpcAssignment"
 ```
+> Si la respuesta es satisfactoria:
+
+```json
+[
+  {
+    "messages": "Webhook created successfully",
+    "is_success": true,
+    "data": {
+      "params":{
+        "id": 12,
+        "callback_url": "http://localhost:3000/webhooks",
+        "entity_model": "CpcAssignment",
+        "company_id": 79,
+        "created_at": "2018-10-23T13:37:52.174-03:00",
+        "updated_at": "2018-10-23T13:37:52.174-03:00"
+      }
+    }
+  }
+]
+```
+
 > Si la respuesta es satisfactoria pero ya existe webhook para la entidad seleccionada:
 
 ```json
@@ -363,10 +384,10 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
     "is_success": false,
     "data": {
       "params":{
-        "id": 1,
-        "callback_url": "https://www.google.com/",
+        "id": 12,
+        "callback_url": "http://localhost:3000/webhooks",
         "entity_model": "CpcAssignment",
-        "company_id": 649,
+        "company_id": 79,
         "created_at": "2018-10-23T13:37:52.174-03:00",
         "updated_at": "2018-10-23T13:37:52.174-03:00"
       }
@@ -402,7 +423,7 @@ Parámetro | Descripción
 --------- | -----------
 messages (string) | Mensaje sobre el cambio.
 is_success (boolean) | Si la modificación se realizó con éxito o no.
-data[ks_id] (integer) | ID de la instancia modificada
+data \[ks_id] (integer) | ID de la instancia modificada
 
 ### Request
 
@@ -437,12 +458,28 @@ updated_at (string) | Fecha de actualización de webhook.
 
 ## Listar Webhooks existentes
 ```shell
-"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN"
+"https://app.keyclouding.cl/api/v1/webhook/list_webhooks?token=AfTzE7BpcORyp6fN"
 ```
 > Si la respuesta es satisfactoria:
 
 ```json
 [
+  {
+    "messages": "List of webhooks",
+    "is_success": true,
+    "data": {
+        "webhook": [
+            {
+                "id": 12,
+                "callback_url": "http://localhost:3000/webhooks",
+                "entity_model": "CpcAssignment",
+                "company_id": 79,
+                "created_at": "2019-01-03T13:16:18.732-03:00",
+                "updated_at": "2019-01-03T13:16:18.732-03:00"
+            }
+        ]
+    }
+  }
 ]
 ```
 
@@ -463,7 +500,7 @@ Permite obtener una lista con los webhooks existentes de la entidad o un mensaje
 
 ### Request
 
-`GET https://app.keyclouding.cl/api/v1/webhook/endpoints`
+`GET https://app.keyclouding.cl/api/v1/webhook/list_webhooks`
 
 ### Parámetros de la consulta
 
@@ -499,7 +536,7 @@ updated_at (string) | Fecha de actualización de webhook.
 ```json
 [
   {
-    "messages": "webhook deleted Successfully",
+    "messages": "webhook deleted successfully",
     "is_success": true,
     "data": { }
   }
