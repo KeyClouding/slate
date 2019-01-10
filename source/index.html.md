@@ -2,7 +2,7 @@
 title: KeyClouding API
 
 language_tabs: # must be one of https://git.io/vQNgJ
-  - shell
+  - json
   # - ruby
   # - python
   # - javascript
