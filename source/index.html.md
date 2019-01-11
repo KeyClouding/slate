@@ -354,6 +354,20 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
 ```shell
 "https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&callback_url=http://localhost:3000/webhooks&entity_model=CpcAssignment"
 ```
+> Ejemplo de Respuesta JSON del POST que se hace al callback_url:
+
+```json
+[
+  {
+    "messages": "Entity_model CpcAssignment have changed",
+    "is_success": true,
+    "data": {
+      "ks_id": 32029
+    }
+  }
+]
+```
+
 > Si la respuesta es satisfactoria:
 
 ```json
@@ -417,14 +431,7 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
   }
 ]
 ```
-Permite a un sistema suscribirse a actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. La solicitud POST a la callback_url se enviará ante cualquier actualización de las instancias de la organización del modelo suscrito, y se agregarán los siguientes parámetros:
-
-Parámetro | Descripción
---------- | -----------
-messages (string) | Mensaje sobre el cambio.
-is_success (boolean) | Si la modificación se realizó con éxito o no.
-data \[ks_id] (integer) | ID de la instancia modificada
-
+Permite a un sistema suscribirse a actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. La solicitud POST a la callback_url se enviará ante cualquier actualización de las instancias de la organización del modelo suscrito, y se agregarán los parámetros específicados en la Respuesta JSON.
 ### Request
 
 `POST https://app.keyclouding.cl/api/v1/webhook/endpoints`
