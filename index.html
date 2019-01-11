@@ -201,7 +201,7 @@
       <script src="javascripts/all.js"></script>
   </head>
 
-  <body class="index" data-languages="[&quot;shell&quot;]">
+  <body class="index" data-languages="[&quot;json&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -211,7 +211,7 @@
     <div class="toc-wrapper">
       <img src="images/logo.png" class="logo" alt="Logo" />
         <div class="lang-selector">
-              <a href="#" data-language-name="shell">shell</a>
+              <a href="#" data-language-name="json">json</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Search">
@@ -716,6 +716,19 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 <h2 id='creacion-de-webhook'>Creación de Webhook</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&amp;callback_url=http://localhost:3000/webhooks&amp;entity_model=CpcAssignment"</span>
 </code></pre>
 <blockquote>
+<p>Ejemplo de Respuesta JSON del POST que se hace al callback_url:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
+  </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"messages"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Entity_model CpcAssignment have changed"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"is_success"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"data"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"ks_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">32029</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">]</span><span class="w">
+</span></code></pre>
+<blockquote>
 <p>Si la respuesta es satisfactoria:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">[</span><span class="w">
@@ -776,27 +789,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   </span><span class="p">}</span><span class="w">
 </span><span class="p">]</span><span class="w">
 </span></code></pre>
-<p>Permite a un sistema suscribirse a actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. La solicitud POST a la callback_url se enviará ante cualquier actualización de las instancias de la organización del modelo suscrito, y se agregarán los siguientes parámetros:</p>
-
-<table><thead>
-<tr>
-<th>Parámetro</th>
-<th>Descripción</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>messages (string)</td>
-<td>Mensaje sobre el cambio.</td>
-</tr>
-<tr>
-<td>is_success (boolean)</td>
-<td>Si la modificación se realizó con éxito o no.</td>
-</tr>
-<tr>
-<td>data [ks_id] (integer)</td>
-<td>ID de la instancia modificada</td>
-</tr>
-</tbody></table>
+<p>Permite a un sistema suscribirse a actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. La solicitud POST a la callback_url se enviará ante cualquier actualización de las instancias de la organización del modelo suscrito, y se agregarán los parámetros específicados en la Respuesta JSON.</p>
 <h3 id='request-4'>Request</h3>
 <p><code>POST https://app.keyclouding.cl/api/v1/webhook/endpoints</code></p>
 <h3 id='parametros-de-la-consulta-4'>Parámetros de la consulta</h3>
@@ -1080,7 +1073,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
       </div>
       <div class="dark-box">
           <div class="lang-selector">
-                <a href="#" data-language-name="shell">shell</a>
+                <a href="#" data-language-name="json">json</a>
           </div>
       </div>
     </div>
