@@ -31,23 +31,19 @@ Para efectos del documento, la aplicación cliente realizará solicitudes al ser
 > Si la respuesta es satisfactoria:
 
 ```json
-[
-  {
-    "status": 200,
-    "token": "AfTzE7BpcORyp6fN"
-  }
-]
+{
+  "status": 200,
+  "token": "AfTzE7BpcORyp6fN"
+}
 ```
 
 > Si se produce un error:
 
 ```json
-[
-  {
-    "status": 401,
-    "token": null
-  }
-]
+{
+  "status": 401,
+  "token": null
+}
 ```
 Para hacer uso de la API de KeyClouding, en toda consulta que se realiza al servidor se debe entregar un parámetro "token". Este se genera por medio de la autenticación y tiene una validez de 30 minutos.
 
@@ -70,14 +66,12 @@ A la derecha se muestra un ejemplo de autenticación donde el secret corresponde
 > Si la asignación es satisfactoria:
 
 ```json
-[
-  {
-    "status": 200,
-    "message”: “Applicant assigned.", 
-    "password”: “0769019c",
-    "ks_id": 32029
-  }
-]
+{
+  "status": 200,
+  "message”: “Applicant assigned.", 
+  "password”: “0769019c",
+  "ks_id": 32029
+}
 ```
 > Si se produce un error de autenticación:
 
@@ -157,70 +151,64 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 > Si la respuesta es satisfactoria:
 
 ```json
-[
-  {
-    "status": 200,
-    "estado_ks": "Rendido",
-    "nota": "3.5",
-    "rango": "Poco satisfactorio",
-    "informe_resumen": "https://www.amazons3.com/kc/235324234.pdf",
-    "informe_otros": [
-		        {
-			              "codigo_test": "ARP",
-                    "informe_url": "https://www.amazons3.com/kc/12341.pdf" 
-		        },
-		        {
-			              "codigo_test": "DCT",
-                    "informe_url": "https://www.amazons3.com/kc/12341.pdf" 
-		        }
-    ] 
-  }
-]
+{
+  "status": 200,
+  "estado_ks": "Rendido",
+  "nota": "3.5",
+  "rango": "Poco satisfactorio",
+  "informe_resumen": "https://www.amazons3.com/kc/235324234.pdf",
+  "informe_otros": [
+    {
+      "codigo_test": "ARP",
+      "informe_url": "https://www.amazons3.com/kc/12341.pdf" 
+    },
+    {
+      "codigo_test": "DCT",
+      "informe_url": "https://www.amazons3.com/kc/12341.pdf" 
+    }
+  ] 
+}
 ```
 
 > Si la respuesta es satisfactoria, pero estado_ks es distinto de "Rendido":
 
 ```json
-[
-  {
-    "status": 200,
-    "estado_ks": "Inválido",
-    "nota": null,
-    "rango": null,
-    "informe_resumen": null,
-    "informe_otros": [
-            {
-			              "codigo_test": "ARP",
-                    "informe_url": "null"
-		        },
-            {
-			              "codigo_test": "DCT",
-                    "informe_url": "https://www.amazons3.com/kc/12341.pdf"
-		        }
-    ] 
-  }
-]
+{
+  "status": 200,
+  "estado_ks": "Inválido",
+  "nota": null,
+  "rango": null,
+  "informe_resumen": null,
+  "informe_otros": [
+    {
+      "codigo_test": "ARP",
+      "informe_url": "null"
+    },
+    {
+      "codigo_test": "DCT",
+      "informe_url": "https://www.amazons3.com/kc/12341.pdf"
+    }
+  ] 
+}
 ```
 
 > Si se produce un error de autenticación:
 
 ```json
-[
-  {
-    "status": 401,
-    "message": "Token inválido"
-  }
-]
+{
+  "status": 401,
+  "message": "Token inválido"
+}
 ```
 
 > Si se produce un error de parámetros:
 
 ```json
-  {
-    "status": 400,
-    "message": "Asignación inválida"
-  }
-]
+{
+  "status": 400,
+  "message": "Asignación inválida"
+}
+
 ```
 Recibe ks_id (identificador único del KS) y el sistema retorna los resultados de la rendición.
 
@@ -254,70 +242,66 @@ informes_parciales (string) | JSON Array con los códigos de los test y sus resp
 > Si la respuesta es satisfactoria:
 
 ```json
-[
-  {
-    "status": 200,
-    "ks_list": [
-      {
-        "id": 165,
-        "ks_code": "TELEM",
-        "nombre": "TELEMARKETING",
-        "tests": [
-          {
-            "id": 7,
-            "codigo": "CIE",
-            "nombre": "Comprensión de Instrucciones Escritas",
-            "tiempo": 8,
-            "estado": "Activo",
-            "contra_reloj": true
-          },
-          {
-            "id": 4,
-            "codigo": "ARP",
-            "nombre": "Aprendizaje y Resolución de Problemas",
-            "tiempo": 12,
-            "estado": "Activo",
-            "contra_reloj": true 
-          }
-        ]
-      },
-      {
-        "id": 158,
-        "ks_code": "AUX",
-        "nombre": "AUXILIAR",
-        "tests": [
-          {
-            "id": 13,
-            "codigo": "CET",
-            "nombre": "Comportamiento de Equipos de Trabajo",
-            "tiempo": 30,
-            "estado": "Activo",
-            "contra_reloj": false
-          },
-          {
-            "id": 4,
-            "codigo": "ARP",
-            "nombre": "Aprendizaje y Resolución de Problemas",
-            "tiempo": 12,
-            "estado": "Activo",
-            "contra_reloj": true 
-          }
-        ]
-      }
-    ]
-  }
-]
+{
+  "status": 200,
+  "ks_list": [
+    {
+      "id": 165,
+      "ks_code": "TELEM",
+      "nombre": "TELEMARKETING",
+      "tests": [
+        {
+          "id": 7,
+          "codigo": "CIE",
+          "nombre": "Comprensión de Instrucciones Escritas",
+          "tiempo": 8,
+          "estado": "Activo",
+          "contra_reloj": true
+        },
+        {
+          "id": 4,
+          "codigo": "ARP",
+          "nombre": "Aprendizaje y Resolución de Problemas",
+          "tiempo": 12,
+          "estado": "Activo",
+          "contra_reloj": true 
+        }
+      ]
+    },
+    {
+      "id": 158,
+      "ks_code": "AUX",
+      "nombre": "AUXILIAR",
+      "tests": [
+        {
+          "id": 13,
+          "codigo": "CET",
+          "nombre": "Comportamiento de Equipos de Trabajo",
+          "tiempo": 30,
+          "estado": "Activo",
+          "contra_reloj": false
+        },
+        {
+          "id": 4,
+          "codigo": "ARP",
+          "nombre": "Aprendizaje y Resolución de Problemas",
+          "tiempo": 12,
+          "estado": "Activo",
+          "contra_reloj": true 
+        }
+      ]
+    }
+  ]
+}
 ```
 
 > Si se produce un error de autenticación:
 
 ```json
-[
-  {
-    "status": 401,
-    "message": "Token inválido"
-  }
-]
+{
+  "status": 401,
+  "message": "Token inválido"
+}
 ```
 Recibe el token de autentificación de la empresa y retorna todos los KS (cargos) activos.
 
@@ -363,79 +347,71 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
 > Ejemplo de Respuesta JSON del POST que se hace al callback_url:
 
 ```json
-[
-  {
-    "messages": "Entity_model CpcAssignment have changed",
-    "is_success": true,
-    "data": {
-      "ks_id": 32029
-    }
+{
+  "messages": "Entity_model CpcAssignment have changed",
+  "is_success": true,
+  "data": {
+    "ks_id": 32029
   }
-]
+}
 ```
 
 > Si la respuesta es satisfactoria:
 
 ```json
-[
-  {
-    "messages": "Webhook created successfully",
-    "is_success": true,
-    "data": {
-      "params":{
-        "id": 12,
-        "callback_url": "http://localhost:3000/webhooks",
-        "entity_model": "CpcAssignment",
-        "company_id": 79,
-        "created_at": "2018-10-23T13:37:52.174-03:00",
-        "updated_at": "2018-10-23T13:37:52.174-03:00"
-      }
+{
+  "messages": "Webhook created successfully",
+  "is_success": true,
+  "data": {
+    "params":{
+      "id": 12,
+      "callback_url": "http://localhost:3000/webhooks",
+      "entity_model": "CpcAssignment",
+      "company_id": 79,
+      "created_at": "2018-10-23T13:37:52.174-03:00",
+      "updated_at": "2018-10-23T13:37:52.174-03:00"
     }
   }
-]
+}
 ```
 
 > Si la respuesta es satisfactoria pero ya existe webhook para la entidad seleccionada:
 
 ```json
-[
-  {
-    "messages": "Cannot create webhook with the same entity",
-    "is_success": false,
-    "data": {
-      "params":{
-        "id": 12,
-        "callback_url": "http://localhost:3000/webhooks",
-        "entity_model": "CpcAssignment",
-        "company_id": 79,
-        "created_at": "2018-10-23T13:37:52.174-03:00",
-        "updated_at": "2018-10-23T13:37:52.174-03:00"
-      }
+{
+  "messages": "Cannot create webhook with the same entity",
+  "is_success": false,
+  "data": {
+    "params":{
+      "id": 12,
+      "callback_url": "http://localhost:3000/webhooks",
+      "entity_model": "CpcAssignment",
+      "company_id": 79,
+      "created_at": "2018-10-23T13:37:52.174-03:00",
+      "updated_at": "2018-10-23T13:37:52.174-03:00"
     }
   }
-]
+}
 ```
 
 > Si se produce un error de parámetros:
 
 ```json
-[
-  {
-    "messages": "Cannot create webhook",
-    "is_success": false,
-    "data": {
-      "params": {
-        "entity_model": "CpcAssignment"
-      },
-      "errors":{
-        "callback_url": [
-          "No puede estar en blanco",
-          "No es válido"
-        ]
-      }
+{
+  "messages": "Cannot create webhook",
+  "is_success": false,
+  "data": {
+    "params": {
+      "entity_model": "CpcAssignment"
+    },
+    "errors":{
+      "callback_url": [
+        "No puede estar en blanco",
+        "No es válido"
+      ]
     }
   }
-]
+}
 ```
 Permite a un cliente suscribirse a un sistema de actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. Es importante destacar que en la URL callback entregada por el cliente se podrán agregar parametros de autenticación correspondientes a las credenciales especificas de cada sistema.
 ### Request
@@ -482,38 +458,34 @@ Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones
 > Si la respuesta es satisfactoria:
 
 ```json
-[
-  {
-    "messages": "List of webhooks",
-    "is_success": true,
-    "data": {
-        "webhook": [
-            {
-                "id": 12,
-                "callback_url": "http://localhost:3000/webhooks",
-                "entity_model": "CpcAssignment",
-                "company_id": 79,
-                "created_at": "2019-01-03T13:16:18.732-03:00",
-                "updated_at": "2019-01-03T13:16:18.732-03:00"
-            }
-        ]
-    }
+{
+  "messages": "List of webhooks",
+  "is_success": true,
+  "data": {
+    "webhook": [
+      {
+        "id": 12,
+        "callback_url": "http://localhost:3000/webhooks",
+        "entity_model": "CpcAssignment",
+        "company_id": 79,
+        "created_at": "2019-01-03T13:16:18.732-03:00",
+        "updated_at": "2019-01-03T13:16:18.732-03:00"
+      }
+    ]
   }
-]
+}
 ```
 
 > Si se produce un error de parámetros:
 
 ```json
-[
-  {
-    "messages": "Cannot find webhook",
-    "is_success": false,
-    "data": {
-      "params": ""
-    }
+{
+  "messages": "Cannot find webhook",
+  "is_success": false,
+  "data": {
+    "params": ""
   }
-]
+}
 ```
 Permite obtener una lista con los webhooks existentes de la entidad o un mensaje informando que no posee ninguno en caso contrario.
 
@@ -553,27 +525,23 @@ updated_at (string) | Fecha de actualización de webhook.
 > Si la respuesta es satisfactoria:
 
 ```json
-[
-  {
-    "messages": "webhook deleted successfully",
-    "is_success": true,
-    "data": { }
-  }
-]
+{
+  "messages": "webhook deleted successfully",
+  "is_success": true,
+  "data": { }
+}
 ```
 
 > Si se produce un error de parámetros:
 
 ```json
-[
-  {
-    "messages": "Cannot find webhook",
-    "is_success": false,
-    "data": {
-      "params": ""
-    }
+{
+  "messages": "Cannot find webhook",
+  "is_success": false,
+  "data": {
+    "params": ""
   }
-]
+}
 ```
 Permite eliminar un webhook asociado a un modelo del sistema, para dejar de recibir solicitudes al momento de actualizaciones de instancias del modelo suscrito.
 
