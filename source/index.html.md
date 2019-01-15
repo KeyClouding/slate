@@ -352,6 +352,16 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
 
 ## Creación de Webhook
 
+> Ejemplo de Body a enviar en la request
+
+```json
+{
+  "token": "AfTzE7BpcORyp6fN",
+  "entity_model": "CpcAssignment",
+  "callback_url": "http://localhost:3000/webhooks?key1=secret_key1&key2=secret_key2"
+}
+
+```
 > Ejemplo de Respuesta JSON del POST que se hace al callback_url:
 
 ```json
@@ -464,7 +474,7 @@ created_at (string) | Fecha de creación del webhook.
 updated_at (string) | Fecha de actualización de webhook.
 
 <aside class="success">
-Recuerda: actualmente sólo se pueden realizar seguimiento de las actualizaciones de la entity_model 'CpcAssignment'
+Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones de la entity_model 'CpcAssignment'
 </aside>
 
 ## Listar Webhooks existentes
