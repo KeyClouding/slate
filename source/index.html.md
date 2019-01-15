@@ -82,34 +82,32 @@ A la derecha se muestra un ejemplo de autenticación donde el secret corresponde
 > Si se produce un error de autenticación:
 
 ```json
-  {
-    "status": 401,
-    "message": "Token inválido"
-  }
-]
+{
+  "status": 401,
+  "message": "Token inválido"
+}
 ```
 
 > Si se produce un error de parámetros y sus respectivos mensajes:
 
 ```json
-  {
-    "status": 400,
-    "message": "No se incluyó <parámetro>" ó
-    "message": "Rut inválido" ó
-    "message": "KS <parámetro> inexistente" ó
-    "message": {
-      "nombres":[
-              "No puede estar en blanco"
-      ],
-      "apellido_paterno":[
-              "No puede estar en blanco"
-      ],
-      "email": [
-              "No es una dirección de correo electrónico válida."
-      ]
-    }
+{
+  "status": 400,
+  "message": "No se incluyó <parámetro>" ó
+  "message": "Rut inválido" ó
+  "message": "KS <parámetro> inexistente" ó
+  "message": {
+    "nombres":[
+      "No puede estar en blanco"
+    ],
+    "apellido_paterno":[
+      "No puede estar en blanco"
+    ],
+    "email": [
+      "No es una dirección de correo electrónico válida."
+    ]
   }
-]
+}
 ```
 Recibe los datos de un postulante y un cargo KS existente en el perfil de la empresa para que el sistema asigne los test respectivos.
 
