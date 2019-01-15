@@ -21,11 +21,11 @@ search: true
 
 En el siguiente documento se detallan los mecanismos y protocolos de comunicación a utilizar para el intercambio de información entre aplicaciones cliente y el servidor de datos de KeyClouding.
 
-Para efectos del documento, la aplicación cliente realizará solicitudes al servidor y este enviará un set de resultados (o nulo) para la consulta indicada. A continuación, se presentan los estándares y tecnología a utilizar, luego las consultas y set de respuesta esperados y finalmente una pequeña justificación de la implementación.
+Para efectos del documento, la aplicación cliente realizará solicitudes al servidor y este enviará un set de resultados (o nulo) para la consulta indicada. A continuación, se presentan los estándares y tecnología a utilizar, luego las consultas y set de respuestas esperadss y finalmente una pequeña justificación de la implementación.
 
 # Autenticación
 ```shell
-"https://app.keyclouding.cl/api/v1/company/authentication?secret=hola"
+"https://app.keyclouding.cl/api/v1/company/authentication?secret=secret_key"
 ```
 
 > Si la respuesta es satisfactoria:
@@ -56,7 +56,7 @@ Para generar el token, se debe hacer un request con método POST al URL
 
 Se debe entregar a este request un parámetro "secret", que es entregado al usuario por KeyClouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.
 
-A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a "hola" y posibles respuestas según el resultado obtenido.
+A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a "secret_key" y posibles respuestas según el resultado obtenido.
 
 
 
@@ -89,7 +89,7 @@ A la derecha se muestra un ejemplo de autenticación donde el secret corresponde
 ]
 ```
 
-> Si se produce un error de parámetros:
+> Si se produce un error de parámetros y sus respectivos mensajes:
 
 ```json
   {
@@ -111,7 +111,7 @@ A la derecha se muestra un ejemplo de autenticación donde el secret corresponde
   }
 ]
 ```
-Recibe un postulante y un cargo KS existente en el perfil de la empresa para que el sistema asigne los test respectivos.
+Recibe los datos de un postulante y un cargo KS existente en el perfil de la empresa para que el sistema asigne los test respectivos.
 
 ### Request
 
@@ -122,19 +122,19 @@ Recibe un postulante y un cargo KS existente en el perfil de la empresa para que
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
 token (string) | obligatorio | Token generado por la autenticación.
-user_id (integer) | opcional | ID del usuario de la plataforma bajo el cual estarán a cargo las asignaciones. Si no se especifica queda por defecto bajo alguno de los administradores de la empresa.
 dni (string) | obligatorio | Documento de identidad del postulante.
 ks_code (string) | obligatorio | Sigla que representa el KS a asignar. Debe ser la misma que la creada en el perfil de KeyClouding.
 country (string) | obligatorio | País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra [aquí](https://es.wikipedia.org/wiki/ISO_3166-1) (tenga cuidado en elegir el código correspondiente de 2 letras).
-phone (string) | opcional | Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country. Este se encuentra en la misma tabla de código de países.
 nombres (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescriben los nombres del postulante.
 apellido_paterno (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
-apellido_materno (string) | opcional | En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
 email (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el email del postulante.
+proceso (string) | obligatorio | Nombre del proceso del cual está participando el postulante.
+user_id (integer) | opcional | ID del usuario de la plataforma bajo el cual estarán a cargo las asignaciones. Si no se especifica queda por defecto bajo alguno de los administradores de la empresa.
+phone (string) | opcional | Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country. Este se encuentra en la misma tabla de código de países.
+apellido_materno (string) | opcional | En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
 genero (string) | opcional | "Masculino" o "Femenino". En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
 fecha_nacimiento (string) | opcional | Formato dd-mm-yyyy. En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
 direccion_residencia (string) | opcional | Dirección de residencia del postulante.
-proceso (string) | obligatorio | Nombre del proceso del cual está participando el postulante.
 
 
 La respuesta obtenida está en el siguiente formato:
@@ -351,9 +351,7 @@ nombre (string) | Nombre del KS.
 tests | Lista de tests correspondientes al ks y algunos parámetros de cada test tales como id, código, nombre, tiempo, estado y contra_reloj.
 
 ## Creación de Webhook
-```shell
-"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&callback_url=http://localhost:3000/webhooks&entity_model=CpcAssignment"
-```
+
 > Ejemplo de Respuesta JSON del POST que se hace al callback_url:
 
 ```json
@@ -431,12 +429,14 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
   }
 ]
 ```
-Permite a un sistema suscribirse a actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. La solicitud POST a la callback_url se enviará ante cualquier actualización de las instancias de la organización del modelo suscrito, y se agregarán los parámetros específicados en la Respuesta JSON.
+Permite a un cliente suscribirse a un sistema de actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. Es importante destacar que en la URL callback entregada por el cliente se podrán agregar parametros de autenticación correspondientes a las credenciales especificas de cada sistema.
 ### Request
 
 `POST https://app.keyclouding.cl/api/v1/webhook/endpoints`
 
 ### Parámetros de la consulta
+
+Los parámetros deben ser enviados a través del body de la request.
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
@@ -462,6 +462,10 @@ callback_url (string) | URL proporcionada para realizar las llamadas de callback
 entity_model (string) | Modelo suscrito por el webhook.
 created_at (string) | Fecha de creación del webhook.
 updated_at (string) | Fecha de actualización de webhook.
+
+<aside class="success">
+Recuerda: actualmente sólo se pueden realizar seguimiento de las actualizaciones de la entity_model 'CpcAssignment'
+</aside>
 
 ## Listar Webhooks existentes
 ```shell
