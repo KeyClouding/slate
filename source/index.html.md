@@ -21,7 +21,7 @@ search: true
 
 En el siguiente documento se detallan los mecanismos y protocolos de comunicación a utilizar para el intercambio de información entre aplicaciones cliente y el servidor de datos de KeyClouding.
 
-Para efectos del documento, la aplicación cliente realizará solicitudes al servidor y este enviará un set de resultados (o nulo) para la consulta indicada. A continuación, se presentan los estándares y tecnología a utilizar, luego las consultas y set de respuestas esperadss y finalmente una pequeña justificación de la implementación.
+Para efectos del documento, la aplicación cliente realizará solicitudes al servidor y este enviará un set de resultados (o nulo) para la consulta indicada. A continuación, se presentan los estándares y tecnología a utilizar, luego las consultas y set de respuestas esperadas y finalmente una pequeña justificación de la implementación.
 
 # Autenticación
 ```shell
