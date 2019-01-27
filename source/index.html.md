@@ -54,14 +54,14 @@ Se debe entregar a este request un parámetro "secret", que es entregado al usua
 
 A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a "secret_key" y posibles respuestas según el resultado obtenido.
 
-### Parámetros de la consulta
+## Parámetros de la consulta
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
 secret (string) | obligatorio | Clave propia de la compañía entregada por KeyClouding
 
 La respuesta obtenida está en el siguiente formato:
-### Respuesta JSON
+## Respuesta JSON
 
 Parámetro | Descripción
 --------- | -----------
