@@ -222,6 +222,14 @@
           </li>
           <li>
             <a href="#autenticacion" class="toc-h1 toc-link" data-title="Autenticación">Autenticación</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#parametros-de-la-consulta" class="toc-h2 toc-link" data-title="Parámetros de la consulta">Parámetros de la consulta</a>
+                  </li>
+                  <li>
+                    <a href="#respuesta-json" class="toc-h2 toc-link" data-title="Respuesta JSON">Respuesta JSON</a>
+                  </li>
+              </ul>
           </li>
           <li>
             <a href="#consultas-y-funcionalidades" class="toc-h1 toc-link" data-title="Consultas y Funcionalidades">Consultas y Funcionalidades</a>
@@ -298,6 +306,38 @@
 <p>Se debe entregar a este request un parámetro &quot;secret&quot;, que es entregado al usuario por KeyClouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.</p>
 
 <p>A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a &quot;secret_key&quot; y posibles respuestas según el resultado obtenido.</p>
+<h3 id='parametros-de-la-consulta'>Parámetros de la consulta</h3>
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>secret (string)</td>
+<td>obligatorio</td>
+<td>Clave propia de la compañía entregada por KeyClouding</td>
+</tr>
+</tbody></table>
+
+<p>La respuesta obtenida está en el siguiente formato:</p>
+<h3 id='respuesta-json'>Respuesta JSON</h3>
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>status (integer)</td>
+<td>Resultado de la consulta. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).</td>
+</tr>
+<tr>
+<td>token</td>
+<td>Token temporal para realizar consultas.</td>
+</tr>
+</tbody></table>
 <h1 id='consultas-y-funcionalidades'>Consultas y Funcionalidades</h1><h2 id='asignacion-de-cargo'>Asignación de Cargo</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/assign_ks?token=AfTzE7BpcORyp6fN&amp;dni=13.433.615-3&amp;ks_code=VET&amp;country=CL&amp;nombres=Juan&amp;apellido_paterno=Perez&amp;email=juan@perez.cl"</span>
 </code></pre>
 <blockquote>
@@ -342,7 +382,7 @@
 <p>Recibe los datos de un postulante y un cargo KS existente en el perfil de la empresa para que el sistema asigne los test respectivos.</p>
 <h3 id='request'>Request</h3>
 <p><code>POST https://app.keyclouding.cl/api/v1/company/assign_ks</code></p>
-<h3 id='parametros-de-la-consulta'>Parámetros de la consulta</h3>
+<h3 id='parametros-de-la-consulta-2'>Parámetros de la consulta</h3>
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -423,7 +463,7 @@
 </tbody></table>
 
 <p>La respuesta obtenida está en el siguiente formato:</p>
-<h3 id='respuesta-json'>Respuesta JSON</h3>
+<h3 id='respuesta-json-2'>Respuesta JSON</h3>
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -515,7 +555,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 <p>Recibe ks_id (identificador único del KS) y el sistema retorna los resultados de la rendición.</p>
 <h3 id='request-2'>Request</h3>
 <p><code>POST https://app.keyclouding.cl/api/v1/company/results_ks</code></p>
-<h3 id='parametros-de-la-consulta-2'>Parámetros de la consulta</h3>
+<h3 id='parametros-de-la-consulta-3'>Parámetros de la consulta</h3>
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -536,7 +576,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tbody></table>
 
 <p>La respuesta obtenida está en el siguiente formato:</p>
-<h3 id='respuesta-json-2'>Respuesta JSON</h3>
+<h3 id='respuesta-json-3'>Respuesta JSON</h3>
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -636,7 +676,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 <p>Recibe el token de autentificación de la empresa y retorna todos los KS (cargos) activos.</p>
 <h3 id='request-3'>Request</h3>
 <p><code>POST https://app.keyclouding.cl/api/v1/company/list_ks</code></p>
-<h3 id='parametros-de-la-consulta-3'>Parámetros de la consulta</h3>
+<h3 id='parametros-de-la-consulta-4'>Parámetros de la consulta</h3>
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -652,7 +692,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tbody></table>
 
 <p>La respuesta obtenida está en el siguiente formato:</p>
-<h3 id='respuesta-json-3'>Respuesta JSON</h3>
+<h3 id='respuesta-json-4'>Respuesta JSON</h3>
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -774,7 +814,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 <p>Permite a un cliente suscribirse a un sistema de actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. Es importante destacar que en la URL callback entregada por el cliente se podrán agregar parametros de autenticación correspondientes a las credenciales especificas de cada sistema.</p>
 <h3 id='request-4'>Request</h3>
 <p><code>POST https://app.keyclouding.cl/api/v1/webhook/endpoints</code></p>
-<h3 id='parametros-de-la-consulta-4'>Parámetros de la consulta</h3>
+<h3 id='parametros-de-la-consulta-5'>Parámetros de la consulta</h3>
 <p>Los parámetros deben ser enviados a través del body de la request.</p>
 
 <table><thead>
@@ -802,7 +842,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tbody></table>
 
 <p>La respuesta obtenida está en el siguiente formato:</p>
-<h3 id='respuesta-json-4'>Respuesta JSON</h3>
+<h3 id='respuesta-json-5'>Respuesta JSON</h3>
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -892,7 +932,7 @@ Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones
 <p>Permite obtener una lista con los webhooks existentes de la entidad o un mensaje informando que no posee ninguno en caso contrario.</p>
 <h3 id='request-5'>Request</h3>
 <p><code>GET https://app.keyclouding.cl/api/v1/webhook/list_webhooks</code></p>
-<h3 id='parametros-de-la-consulta-5'>Parámetros de la consulta</h3>
+<h3 id='parametros-de-la-consulta-6'>Parámetros de la consulta</h3>
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -908,7 +948,7 @@ Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones
 </tbody></table>
 
 <p>La respuesta obtenida está en el siguiente formato:</p>
-<h3 id='respuesta-json-5'>Respuesta JSON</h3>
+<h3 id='respuesta-json-6'>Respuesta JSON</h3>
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -983,7 +1023,7 @@ Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones
 <p>Permite eliminar un webhook asociado a un modelo del sistema, para dejar de recibir solicitudes al momento de actualizaciones de instancias del modelo suscrito.</p>
 <h3 id='request-6'>Request</h3>
 <p><code>DELETE https://app.keyclouding.cl/api/v1/webhook/endpoints</code></p>
-<h3 id='parametros-de-la-consulta-6'>Parámetros de la consulta</h3>
+<h3 id='parametros-de-la-consulta-7'>Parámetros de la consulta</h3>
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -1004,7 +1044,7 @@ Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones
 </tbody></table>
 
 <p>La respuesta obtenida está en el siguiente formato:</p>
-<h3 id='respuesta-json-6'>Respuesta JSON</h3>
+<h3 id='respuesta-json-7'>Respuesta JSON</h3>
 <table><thead>
 <tr>
 <th>Parámetro</th>
