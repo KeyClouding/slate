@@ -58,7 +58,19 @@ Se debe entregar a este request un parámetro "secret", que es entregado al usua
 
 A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a "secret_key" y posibles respuestas según el resultado obtenido.
 
+### Parámetros de la consulta
 
+Parámetro | Carácter | Descripción
+--------- | -------- | -----------
+secret (string) | obligatorio | Clave propia de la compañía entregada por KeyClouding
+
+La respuesta obtenida está en el siguiente formato:
+### Respuesta JSON
+
+Parámetro | Descripción
+--------- | -----------
+status (integer) | Resultado de la consulta. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).
+token | Token temporal para realizar consultas.
 
 
 # Consultas y Funcionalidades
