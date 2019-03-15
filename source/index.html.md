@@ -73,7 +73,7 @@ token | Token temporal para realizar consultas.
 
 ## Asignación de Cargo
 ```shell
-"https://app.keyclouding.cl/api/v1/company/assign_ks?token=AfTzE7BpcORyp6fN&dni=13.433.615-3&ks_code=VET&country=CL&nombres=Juan&apellido_paterno=Perez&email=juan@perez.cl"
+"https://app.keyclouding.cl/api/v1/company/assign_ks?token=AfTzE7BpcORyp6fN&dni=13.433.615-3&ks_code=VET&country=CL&nombres=Juan&apellido_paterno=Perez&email=juan@perez.cl&proceso=DESARROLLADOR"
 ```
 > Si la asignación es satisfactoria:
 
