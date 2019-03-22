@@ -183,8 +183,9 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 ```
 
 > Si la respuesta es satisfactoria, pero estado_ks es distinto de "Rendido":
-
+<!- Ojo que este estado_test lo agregué a mano pero hay que hacerlo legal->
 ```json
+
 {
   "status": 200,
   "estado_ks": "Inválido",
@@ -194,10 +195,12 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   "informe_otros": [
     {
       "codigo_test": "ARP",
+      "estado_test": "En Proceso",
       "informe_url": "null"
     },
     {
       "codigo_test": "DCT",
+      "estado_test": "Rendido",
       "informe_url": "https://www.amazons3.com/kc/12341.pdf"
     }
   ] 
@@ -239,13 +242,13 @@ La respuesta obtenida está en el siguiente formato:
 ### Respuesta JSON
 
 Parámetro | Descripción
---------- | -----------
+---------- | -----------
 status (integer) | Resultado de la publicación de un nuevo postulante. Los valores admitidos son 200 (OK), 401 (Unauthorized), 403 (Forbidden) ó 400 (Bad Request).
 estado_ks (string) | Estado de la rendición del KS, el cual puede tomar los valores “Rendido”, ”Inválido”, “Inconsistente”, “En Proceso” ó “Eliminado”.
 nota (string) | Nota obtenida en el KS ó null si el estado_ks es distinto de “Rendido”.
 rango (string) | Texto que indica si la persona es muy adecuada, adecuada, aceptable o poco satisfactoria para el cargo ó null si el estado_ks es distinto de “Rendido”.
-informe_ks_url (string) | URL donde está alojado el informe PDF del resultado del KS ó null si el estado_ks es distinto de “Rendido”.
-informes_parciales (string) | JSON Array con los códigos de los test y sus respectivas URL donde está alojado del informe PDF del resultado del test parcial, ó null si el estado_ks es distinto de “Rendido”.
+informe_resumen (string) | URL donde está alojado el informe PDF del resultado del KS ó null si el estado_ks es distinto de “Rendido”.
+informe_otros (string) | JSON Array con los códigos de los test y sus respectivas URL donde está alojado del informe PDF del resultado del test parcial, ó null si el estado_ks es distinto de “Rendido”.
 
 ## Lista de Key Scorings (cargos) activos
 ```shell
