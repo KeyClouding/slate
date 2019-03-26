@@ -24,9 +24,22 @@ En el siguiente documento se detallan los mecanismos y protocolos de comunicaci�
 Para efectos del documento, la aplicación cliente realizará solicitudes al servidor y este enviará un set de resultados (o nulo) para la consulta indicada. A continuación, se presentan los estándares y tecnología a utilizar, luego las consultas y set de respuestas esperadas y finalmente una pequeña justificación de la implementación.
 
 # Autenticación
+
+> URL:
+
 ```shell
-"https://app.keyclouding.cl/api/v1/company/authentication?secret=secret_key"
+"https://app.keyclouding.cl/api/v1/company/authentication"
+
 ```
+
+> Ejemplo de body a enviar en la request:
+
+```json
+{
+  "secret": "secret_key"
+}
+```
+
 
 > Si la respuesta es satisfactoria:
 
@@ -56,6 +69,8 @@ A la derecha se muestra un ejemplo de autenticación donde el secret corresponde
 
 ## Parámetros de la consulta
 
+Los parámetros deben ser enviados a través del body de la request. 
+
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
 secret (string) | obligatorio | Clave propia de la compañía entregada por KeyClouding
@@ -72,9 +87,29 @@ token | Token temporal para realizar consultas.
 # Consultas y Funcionalidades
 
 ## Asignación de Cargo
+
+> URL:
+
 ```shell
-"https://app.keyclouding.cl/api/v1/company/assign_ks?token=AfTzE7BpcORyp6fN&dni=13.433.615-3&ks_code=VET&country=CL&nombres=Juan&apellido_paterno=Perez&email=juan@perez.cl&proceso=DESARROLLADOR"
+"https://app.keyclouding.cl/api/v1/company/assign_ks"
 ```
+
+> Ejemplo de body a enviar en la request:
+
+```json
+{
+  "token": "AfTzE7BpcORyp6fN",
+  "dni": 13.433.615-3, 
+  "ks_code": "VET",
+  "country": "CL",
+  "nombres": "Juan",
+  "apellido_paterno": "Perez",
+  "email": "juan@perez.cl",
+  "proceso": "DESARROLLADOR"
+}
+```
+
+
 > Si la asignación es satisfactoria:
 
 ```json
@@ -123,6 +158,8 @@ Recibe los datos de un postulante y un cargo KS existente en el perfil de la emp
 
 ### Parámetros de la consulta
 
+Los parámetros deben ser enviados a través del body de la request. 
+
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
 token (string) | obligatorio | Token generado por la autenticación.
@@ -157,9 +194,22 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </aside>
 
 ## Consulta de resultados
+
+> URL:
+
 ```shell
-"https://app.keyclouding.cl/api/v1/company/results_ks?token=AfTzE7BpcORyp6fN&ks_id=32029"
+"https://app.keyclouding.cl/api/v1/company/results_ks"
 ```
+
+> Ejemplo de body a enviar en la request:
+
+```json
+{
+  "token": "AfTzE7BpcORyp6fN",
+  "ks_id": 32029
+}
+```
+
 > Si la respuesta es satisfactoria:
 
 ```json
@@ -172,10 +222,12 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   "informe_otros": [
     {
       "codigo_test": "ARP",
+      "estado_test": "Rendido",
       "informe_url": "https://www.amazons3.com/kc/12341.pdf" 
     },
     {
       "codigo_test": "DCT",
+      "estado_test": "Rendido",
       "informe_url": "https://www.amazons3.com/kc/12341.pdf" 
     }
   ] 
@@ -183,7 +235,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 ```
 
 > Si la respuesta es satisfactoria, pero estado_ks es distinto de "Rendido":
-<!- Ojo que este estado_test lo agregué a mano pero hay que hacerlo legal->
+
 ```json
 
 {
@@ -233,6 +285,8 @@ Recibe ks_id (identificador único del KS) y el sistema retorna los resultados d
 
 ### Parámetros de la consulta
 
+Los parámetros deben ser enviados a través del body de la request. 
+
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
 token (string) | obligatorio | Token generado por la autenticación.
@@ -251,9 +305,22 @@ informe_resumen (string) | URL donde está alojado el informe PDF del resultado 
 informe_otros (string) | JSON Array con los códigos de los test y sus respectivas URL donde está alojado del informe PDF del resultado del test parcial, ó null si el estado_ks es distinto de “Rendido”.
 
 ## Lista de Key Scorings (cargos) activos
+
+> URL:
+
 ```shell
-"https://app.keyclouding.cl/api/v1/company/list_ks?token=AfTzE7BpcORyp6fN"
+"https://app.keyclouding.cl/api/v1/company/list_ks"
 ```
+
+> Ejemplo de body a enviar en la request:
+
+```json
+{
+  "token": "AfTzE7BpcORyp6fN"
+}
+
+```
+
 > Si la respuesta es satisfactoria:
 
 ```json
@@ -326,6 +393,8 @@ Recibe el token de autentificación de la empresa y retorna todos los KS (cargos
 
 ### Parámetros de la consulta
 
+Los parámetros deben ser enviados a través del body de la request.
+
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
 token (string) | obligatorio | Token generado por la autenticación.
@@ -349,7 +418,13 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
 
 ## Creación de Webhook
 
-> Ejemplo de Body a enviar en la request
+> URL:
+
+```shell
+"https://app.keyclouding.cl/api/v1/webhook/endpoints"
+```
+
+> Ejemplo de body a enviar en la request:
 
 ```json
 {
@@ -467,9 +542,21 @@ Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones
 </aside>
 
 ## Listar Webhooks existentes
+
+> URL:
+
 ```shell
-"https://app.keyclouding.cl/api/v1/webhook/list_webhooks?token=AfTzE7BpcORyp6fN"
+"https://app.keyclouding.cl/api/v1/webhook/list_webhooks"
 ```
+
+> Ejemplo de body a enviar en la request:
+
+```json
+{
+  "token": "AfTzE7BpcORyp6fN"
+}
+```
+
 > Si la respuesta es satisfactoria:
 
 ```json
@@ -510,6 +597,8 @@ Permite obtener una lista con los webhooks existentes de la entidad o un mensaje
 
 ### Parámetros de la consulta
 
+Los parámetros deben ser enviados a través del body de la request.
+
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
 token (string) | obligatorio | Token generado por la autenticación.
@@ -534,9 +623,22 @@ created_at (string) | Fecha de creación del webhook.
 updated_at (string) | Fecha de actualización de webhook.
 
 ## Eliminación de Webhook
+
+> URL:
+
 ```shell
-"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&id=43"
+"https://app.keyclouding.cl/api/v1/webhook/endpoints"
 ```
+
+> Ejemplo de body a enviar en la request:
+
+```json
+{
+  "token": "AfTzE7BpcORyp6fN",
+  "id": 43
+}
+```
+
 > Si la respuesta es satisfactoria:
 
 ```json
@@ -565,6 +667,8 @@ Permite eliminar un webhook asociado a un modelo del sistema, para dejar de reci
 `DELETE https://app.keyclouding.cl/api/v1/webhook/endpoints`
 
 ### Parámetros de la consulta
+
+Los parámetros deben ser enviados a través del body de la request.
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
