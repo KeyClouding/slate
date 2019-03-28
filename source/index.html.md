@@ -52,7 +52,7 @@ A la derecha se muestra un ejemplo de autenticación donde el secret corresponde
 }
 ```
 
-Los parámetros deben ser enviados a través del body de la request. 
+Los parámetros deben ser enviados a través del body con un formato de tipo form-data. 
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
@@ -122,7 +122,7 @@ Recibe los datos de un postulante y un cargo KS existente en el perfil de la emp
 ```
 
 
-Los parámetros deben ser enviados a través del body de la request. 
+Los parámetros deben ser enviados a través del body con un formato de tipo form-data. 
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
@@ -228,7 +228,7 @@ Recibe ks_id (identificador único del KS) y el sistema retorna los resultados d
 ```
 
 
-Los parámetros deben ser enviados a través del body de la request. 
+Los parámetros deben ser enviados a través del body con un formato de tipo form-data. 
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
@@ -346,7 +346,7 @@ Recibe el token de autentificación de la empresa y retorna todos los KS (cargos
 
 
 
-Los parámetros deben ser enviados a través del body de la request.
+Los parámetros deben ser enviados a través del body con un formato de tipo form-data.
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
@@ -467,7 +467,7 @@ Permite a un cliente suscribirse a un sistema de actualizaciones sobre un modelo
 
 
 
-Los parámetros deben ser enviados a través del body de la request.
+Los parámetros deben ser enviados a través del body con un formato de tipo form-data.
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
@@ -596,7 +596,7 @@ Permite obtener una lista con los webhooks existentes de la entidad o un mensaje
 
 ### Parámetros de la consulta
 
-Los parámetros deben ser enviados a través del body de la request.
+Los parámetros deben ser enviados a través del body con un formato de tipo form-data.
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
@@ -682,9 +682,7 @@ Permite eliminar un webhook asociado a un modelo del sistema, para dejar de reci
 ### Parámetros de la consulta
 
 
-
-
-Los parámetros deben ser enviados a través del body de la request.
+Los parámetros deben ser enviados a través del body con un formato de tipo form-data.
 
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
