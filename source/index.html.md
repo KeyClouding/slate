@@ -25,6 +25,18 @@ Para efectos del documento, la aplicación cliente realizará solicitudes al ser
 
 # Autenticación
 
+
+Para hacer uso de la API de KeyClouding, en toda consulta que se realiza al servidor se debe entregar un parámetro "token". Este se genera por medio de la autenticación y tiene una validez de 30 minutos.
+
+Para generar el token, se debe hacer un request con método POST al URL
+ `https://app.keyclouding.cl/api/v1/company/authentication`.
+
+Se debe entregar a este request un parámetro "secret", que es entregado al usuario por KeyClouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.
+
+A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a "secret_key" y posibles respuestas según el resultado obtenido.
+
+## Parámetros de la consulta
+
 > URL:
 
 ```shell
@@ -40,6 +52,14 @@ Para efectos del documento, la aplicación cliente realizará solicitudes al ser
 }
 ```
 
+Los parámetros deben ser enviados a través del body de la request. 
+
+Parámetro | Carácter | Descripción
+--------- | -------- | -----------
+secret (string) | obligatorio | Clave propia de la compañía entregada por KeyClouding
+
+
+## Respuesta JSON
 
 > Si la respuesta es satisfactoria:
 
@@ -58,25 +78,7 @@ Para efectos del documento, la aplicación cliente realizará solicitudes al ser
   "token": null
 }
 ```
-Para hacer uso de la API de KeyClouding, en toda consulta que se realiza al servidor se debe entregar un parámetro "token". Este se genera por medio de la autenticación y tiene una validez de 30 minutos.
-
-Para generar el token, se debe hacer un request con método POST al URL
- `https://app.keyclouding.cl/api/v1/company/authentication`.
-
-Se debe entregar a este request un parámetro "secret", que es entregado al usuario por KeyClouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.
-
-A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a "secret_key" y posibles respuestas según el resultado obtenido.
-
-## Parámetros de la consulta
-
-Los parámetros deben ser enviados a través del body de la request. 
-
-Parámetro | Carácter | Descripción
---------- | -------- | -----------
-secret (string) | obligatorio | Clave propia de la compañía entregada por KeyClouding
-
 La respuesta obtenida está en el siguiente formato:
-## Respuesta JSON
 
 Parámetro | Descripción
 --------- | -----------
@@ -84,9 +86,19 @@ status (integer) | Resultado de la consulta. Los valores admitidos son 200 (OK),
 token | Token temporal para realizar consultas.
 
 
+
 # Consultas y Funcionalidades
 
 ## Asignación de Cargo
+
+
+Recibe los datos de un postulante y un cargo KS existente en el perfil de la empresa para que el sistema asigne los test respectivos.
+
+### Request
+
+`POST https://app.keyclouding.cl/api/v1/company/assign_ks`
+
+### Parámetros de la consulta
 
 > URL:
 
@@ -108,6 +120,31 @@ token | Token temporal para realizar consultas.
   "proceso": "DESARROLLADOR"
 }
 ```
+
+
+Los parámetros deben ser enviados a través del body de la request. 
+
+Parámetro | Carácter | Descripción
+--------- | -------- | -----------
+token (string) | obligatorio | Token generado por la autenticación.
+dni (string) | obligatorio | Documento de identidad del postulante.
+ks_code (string) | obligatorio | Sigla que representa el KS a asignar. Debe ser la misma que la creada en el perfil de KeyClouding.
+country (string) | obligatorio | País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra [aquí](https://es.wikipedia.org/wiki/ISO_3166-1) (tenga cuidado en elegir el código correspondiente de 2 letras).
+nombres (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescriben los nombres del postulante.
+apellido_paterno (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
+email (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el email del postulante.
+proceso (string) | obligatorio | Nombre del proceso del cual está participando el postulante.
+user_id (integer) | opcional | ID del usuario de la plataforma bajo el cual estarán a cargo las asignaciones. Si no se especifica queda por defecto bajo alguno de los administradores de la empresa.
+phone (string) | opcional | Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country. Este se encuentra en la misma tabla de código de países.
+apellido_materno (string) | opcional | En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
+genero (string) | opcional | "Masculino" o "Femenino". En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
+fecha_nacimiento (string) | opcional | Formato dd-mm-yyyy. En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
+direccion_residencia (string) | opcional | Dirección de residencia del postulante.
+
+
+
+### Respuesta JSON
+
 
 
 > Si la asignación es satisfactoria:
@@ -150,36 +187,7 @@ token | Token temporal para realizar consultas.
   }
 }
 ```
-Recibe los datos de un postulante y un cargo KS existente en el perfil de la empresa para que el sistema asigne los test respectivos.
-
-### Request
-
-`POST https://app.keyclouding.cl/api/v1/company/assign_ks`
-
-### Parámetros de la consulta
-
-Los parámetros deben ser enviados a través del body de la request. 
-
-Parámetro | Carácter | Descripción
---------- | -------- | -----------
-token (string) | obligatorio | Token generado por la autenticación.
-dni (string) | obligatorio | Documento de identidad del postulante.
-ks_code (string) | obligatorio | Sigla que representa el KS a asignar. Debe ser la misma que la creada en el perfil de KeyClouding.
-country (string) | obligatorio | País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra [aquí](https://es.wikipedia.org/wiki/ISO_3166-1) (tenga cuidado en elegir el código correspondiente de 2 letras).
-nombres (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescriben los nombres del postulante.
-apellido_paterno (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
-email (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el email del postulante.
-proceso (string) | obligatorio | Nombre del proceso del cual está participando el postulante.
-user_id (integer) | opcional | ID del usuario de la plataforma bajo el cual estarán a cargo las asignaciones. Si no se especifica queda por defecto bajo alguno de los administradores de la empresa.
-phone (string) | opcional | Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country. Este se encuentra en la misma tabla de código de países.
-apellido_materno (string) | opcional | En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
-genero (string) | opcional | "Masculino" o "Femenino". En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
-fecha_nacimiento (string) | opcional | Formato dd-mm-yyyy. En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
-direccion_residencia (string) | opcional | Dirección de residencia del postulante.
-
-
 La respuesta obtenida está en el siguiente formato:
-### Respuesta JSON
 
 Parámetro | Descripción
 --------- | -----------
@@ -195,6 +203,15 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 
 ## Consulta de resultados
 
+
+Recibe ks_id (identificador único del KS) y el sistema retorna los resultados de la rendición.
+
+### Request
+
+`POST https://app.keyclouding.cl/api/v1/company/results_ks`
+
+### Parámetros de la consulta
+
 > URL:
 
 ```shell
@@ -209,6 +226,18 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   "ks_id": 32029
 }
 ```
+
+
+Los parámetros deben ser enviados a través del body de la request. 
+
+Parámetro | Carácter | Descripción
+--------- | -------- | -----------
+token (string) | obligatorio | Token generado por la autenticación.
+ks_id (integer) | obligatorio | Identificador único de asignación, el mismo que fue retornado en la Asignación de Cargo.
+
+
+### Respuesta JSON
+
 
 > Si la respuesta es satisfactoria:
 
@@ -277,23 +306,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 }
 
 ```
-Recibe ks_id (identificador único del KS) y el sistema retorna los resultados de la rendición.
-
-### Request
-
-`POST https://app.keyclouding.cl/api/v1/company/results_ks`
-
-### Parámetros de la consulta
-
-Los parámetros deben ser enviados a través del body de la request. 
-
-Parámetro | Carácter | Descripción
---------- | -------- | -----------
-token (string) | obligatorio | Token generado por la autenticación.
-ks_id (integer) | obligatorio | Identificador único de asignación, el mismo que fue retornado en la Asignación de Cargo.
-
 La respuesta obtenida está en el siguiente formato:
-### Respuesta JSON
 
 Parámetro | Descripción
 ---------- | -----------
@@ -305,6 +318,11 @@ informe_resumen (string) | URL donde está alojado el informe PDF del resultado 
 informe_otros (string) | JSON Array con los códigos de los test y sus respectivas URL donde está alojado del informe PDF del resultado del test parcial, ó null si el estado_ks es distinto de “Rendido”.
 
 ## Lista de Key Scorings (cargos) activos
+
+
+Recibe el token de autentificación de la empresa y retorna todos los KS (cargos) activos.
+
+### Request
 
 > URL:
 
@@ -320,6 +338,23 @@ informe_otros (string) | JSON Array con los códigos de los test y sus respectiv
 }
 
 ```
+
+`POST https://app.keyclouding.cl/api/v1/company/list_ks`
+
+### Parámetros de la consulta
+
+
+
+
+Los parámetros deben ser enviados a través del body de la request.
+
+Parámetro | Carácter | Descripción
+--------- | -------- | -----------
+token (string) | obligatorio | Token generado por la autenticación.
+
+
+### Respuesta JSON
+
 
 > Si la respuesta es satisfactoria:
 
@@ -385,22 +420,8 @@ informe_otros (string) | JSON Array con los códigos de los test y sus respectiv
   "message": "Token inválido"
 }
 ```
-Recibe el token de autentificación de la empresa y retorna todos los KS (cargos) activos.
-
-### Request
-
-`POST https://app.keyclouding.cl/api/v1/company/list_ks`
-
-### Parámetros de la consulta
-
-Los parámetros deben ser enviados a través del body de la request.
-
-Parámetro | Carácter | Descripción
---------- | -------- | -----------
-token (string) | obligatorio | Token generado por la autenticación.
 
 La respuesta obtenida está en el siguiente formato:
-### Respuesta JSON
 
 Parámetro | Descripción
 --------- | -----------
@@ -418,6 +439,10 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
 
 ## Creación de Webhook
 
+
+Permite a un cliente suscribirse a un sistema de actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. Es importante destacar que en la URL callback entregada por el cliente se podrán agregar parametros de autenticación correspondientes a las credenciales especificas de cada sistema.
+### Request
+
 > URL:
 
 ```shell
@@ -434,6 +459,25 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
 }
 
 ```
+
+
+`POST https://app.keyclouding.cl/api/v1/webhook/endpoints`
+
+### Parámetros de la consulta
+
+
+
+Los parámetros deben ser enviados a través del body de la request.
+
+Parámetro | Carácter | Descripción
+--------- | -------- | -----------
+token (string) | obligatorio | Token generado por la autenticación.
+callback_url (string) | obligatorio | URL a la cual se efectuará la consulta POST ante una modificación de alguna instancia del modelo suscrito.
+entity_model (string) | obligatorio | Nombre del modelo al cual se quiere suscribir (e.g "CpcAssignment")
+
+
+### Respuesta JSON
+
 > Ejemplo de Respuesta JSON del POST que se hace al callback_url:
 
 ```json
@@ -503,23 +547,8 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
   }
 }
 ```
-Permite a un cliente suscribirse a un sistema de actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. Es importante destacar que en la URL callback entregada por el cliente se podrán agregar parametros de autenticación correspondientes a las credenciales especificas de cada sistema.
-### Request
-
-`POST https://app.keyclouding.cl/api/v1/webhook/endpoints`
-
-### Parámetros de la consulta
-
-Los parámetros deben ser enviados a través del body de la request.
-
-Parámetro | Carácter | Descripción
---------- | -------- | -----------
-token (string) | obligatorio | Token generado por la autenticación.
-callback_url (string) | obligatorio | URL a la cual se efectuará la consulta POST ante una modificación de alguna instancia del modelo suscrito.
-entity_model (string) | obligatorio | Nombre del modelo al cual se quiere suscribir (e.g "CpcAssignment")
 
 La respuesta obtenida está en el siguiente formato:
-### Respuesta JSON
 
 Parámetro | Descripción
 --------- | -----------
@@ -543,6 +572,8 @@ Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones
 
 ## Listar Webhooks existentes
 
+Permite obtener una lista con los webhooks existentes de la entidad o un mensaje informando que no posee ninguno en caso contrario.
+
 > URL:
 
 ```shell
@@ -556,6 +587,23 @@ Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones
   "token": "AfTzE7BpcORyp6fN"
 }
 ```
+
+### Request
+
+
+
+`GET https://app.keyclouding.cl/api/v1/webhook/list_webhooks`
+
+### Parámetros de la consulta
+
+Los parámetros deben ser enviados a través del body de la request.
+
+Parámetro | Carácter | Descripción
+--------- | -------- | -----------
+token (string) | obligatorio | Token generado por la autenticación.
+
+
+### Respuesta JSON
 
 > Si la respuesta es satisfactoria:
 
@@ -589,22 +637,7 @@ Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones
   }
 }
 ```
-Permite obtener una lista con los webhooks existentes de la entidad o un mensaje informando que no posee ninguno en caso contrario.
-
-### Request
-
-`GET https://app.keyclouding.cl/api/v1/webhook/list_webhooks`
-
-### Parámetros de la consulta
-
-Los parámetros deben ser enviados a través del body de la request.
-
-Parámetro | Carácter | Descripción
---------- | -------- | -----------
-token (string) | obligatorio | Token generado por la autenticación.
-
 La respuesta obtenida está en el siguiente formato:
-### Respuesta JSON
 
 Parámetro | Descripción
 --------- | -----------
@@ -624,6 +657,13 @@ updated_at (string) | Fecha de actualización de webhook.
 
 ## Eliminación de Webhook
 
+
+Permite eliminar un webhook asociado a un modelo del sistema, para dejar de recibir solicitudes al momento de actualizaciones de instancias del modelo suscrito.
+
+### Request
+
+`DELETE https://app.keyclouding.cl/api/v1/webhook/endpoints`
+
 > URL:
 
 ```shell
@@ -638,6 +678,22 @@ updated_at (string) | Fecha de actualización de webhook.
   "id": 43
 }
 ```
+
+### Parámetros de la consulta
+
+
+
+
+Los parámetros deben ser enviados a través del body de la request.
+
+Parámetro | Carácter | Descripción
+--------- | -------- | -----------
+token (string) | obligatorio | Token generado por la autenticación.
+id (integer) | obligatorio | Identificador único del webhook, el mismo que fue retornado en la Creación de Webhook.
+
+
+### Respuesta JSON
+
 
 > Si la respuesta es satisfactoria:
 
@@ -660,23 +716,7 @@ updated_at (string) | Fecha de actualización de webhook.
   }
 }
 ```
-Permite eliminar un webhook asociado a un modelo del sistema, para dejar de recibir solicitudes al momento de actualizaciones de instancias del modelo suscrito.
-
-### Request
-
-`DELETE https://app.keyclouding.cl/api/v1/webhook/endpoints`
-
-### Parámetros de la consulta
-
-Los parámetros deben ser enviados a través del body de la request.
-
-Parámetro | Carácter | Descripción
---------- | -------- | -----------
-token (string) | obligatorio | Token generado por la autenticación.
-id (integer) | obligatorio | Identificador único del webhook, el mismo que fue retornado en la Creación de Webhook.
-
 La respuesta obtenida está en el siguiente formato:
-### Respuesta JSON
 
 Parámetro | Descripción
 --------- | -----------
