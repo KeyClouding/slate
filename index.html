@@ -282,8 +282,45 @@
 <p>En el siguiente documento se detallan los mecanismos y protocolos de comunicación a utilizar para el intercambio de información entre aplicaciones cliente y el servidor de datos de KeyClouding.</p>
 
 <p>Para efectos del documento, la aplicación cliente realizará solicitudes al servidor y este enviará un set de resultados (o nulo) para la consulta indicada. A continuación, se presentan los estándares y tecnología a utilizar, luego las consultas y set de respuestas esperadas y finalmente una pequeña justificación de la implementación.</p>
-<h1 id='autenticacion'>Autenticación</h1><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/authentication?secret=secret_key"</span>
+<h1 id='autenticacion'>Autenticación</h1>
+<p>Para hacer uso de la API de KeyClouding, en toda consulta que se realiza al servidor se debe entregar un parámetro &quot;token&quot;. Este se genera por medio de la autenticación y tiene una validez de 30 minutos.</p>
+
+<p>Para generar el token, se debe hacer un request con método POST al URL
+ <code>https://app.keyclouding.cl/api/v1/company/authentication</code>.</p>
+
+<p>Se debe entregar a este request un parámetro &quot;secret&quot;, que es entregado al usuario por KeyClouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.</p>
+
+<p>A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a &quot;secret_key&quot; y posibles respuestas según el resultado obtenido.</p>
+<h2 id='parametros-de-la-consulta'>Parámetros de la consulta</h2>
+<blockquote>
+<p>URL:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/authentication"</span>
+
 </code></pre>
+<blockquote>
+<p>Ejemplo de body a enviar en la request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"secret_key"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Los parámetros deben ser enviados a través del body con un formato de tipo form-data. </p>
+
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>secret (string)</td>
+<td>obligatorio</td>
+<td>Clave propia de la compañía entregada por KeyClouding</td>
+</tr>
+</tbody></table>
+<h2 id='respuesta-json'>Respuesta JSON</h2>
 <blockquote>
 <p>Si la respuesta es satisfactoria:</p>
 </blockquote>
@@ -300,31 +337,8 @@
   </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Para hacer uso de la API de KeyClouding, en toda consulta que se realiza al servidor se debe entregar un parámetro &quot;token&quot;. Este se genera por medio de la autenticación y tiene una validez de 30 minutos.</p>
-
-<p>Para generar el token, se debe hacer un request con método POST al URL
- <code>https://app.keyclouding.cl/api/v1/company/authentication</code>.</p>
-
-<p>Se debe entregar a este request un parámetro &quot;secret&quot;, que es entregado al usuario por KeyClouding. Según sea el resultado de la autenticación, se entregará el token correspondiente para realizar futuras consultas o un mensaje indicando que no se pudo ingresar con éxito.</p>
-
-<p>A la derecha se muestra un ejemplo de autenticación donde el secret corresponde a &quot;secret_key&quot; y posibles respuestas según el resultado obtenido.</p>
-<h2 id='parametros-de-la-consulta'>Parámetros de la consulta</h2>
-<table><thead>
-<tr>
-<th>Parámetro</th>
-<th>Carácter</th>
-<th>Descripción</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>secret (string)</td>
-<td>obligatorio</td>
-<td>Clave propia de la compañía entregada por KeyClouding</td>
-</tr>
-</tbody></table>
-
 <p>La respuesta obtenida está en el siguiente formato:</p>
-<h2 id='respuesta-json'>Respuesta JSON</h2>
+
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -340,51 +354,32 @@
 <td>Token temporal para realizar consultas.</td>
 </tr>
 </tbody></table>
-<h1 id='consultas-y-funcionalidades'>Consultas y Funcionalidades</h1><h2 id='asignacion-de-cargo'>Asignación de Cargo</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/assign_ks?token=AfTzE7BpcORyp6fN&amp;dni=13.433.615-3&amp;ks_code=VET&amp;country=CL&amp;nombres=Juan&amp;apellido_paterno=Perez&amp;email=juan@perez.cl&amp;proceso=DESARROLLADOR"</span>
-</code></pre>
-<blockquote>
-<p>Si la asignación es satisfactoria:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"message”: “Applicant assigned."</span><span class="p">,</span><span class="w"> 
-  </span><span class="s2">"password”: “0769019c"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"ks_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">32029</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<blockquote>
-<p>Si se produce un error de autenticación:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">401</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Token inválido"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
-<blockquote>
-<p>Si se produce un error de parámetros y sus respectivos mensajes:</p>
-</blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
-  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"No se incluyó &lt;parámetro&gt;"</span><span class="w"> </span><span class="err">ó</span><span class="w">
-  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rut inválido"</span><span class="w"> </span><span class="err">ó</span><span class="w">
-  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KS &lt;parámetro&gt; inexistente"</span><span class="w"> </span><span class="err">ó</span><span class="w">
-  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="s2">"nombres"</span><span class="p">:[</span><span class="w">
-      </span><span class="s2">"No puede estar en blanco"</span><span class="w">
-    </span><span class="p">],</span><span class="w">
-    </span><span class="s2">"apellido_paterno"</span><span class="p">:[</span><span class="w">
-      </span><span class="s2">"No puede estar en blanco"</span><span class="w">
-    </span><span class="p">],</span><span class="w">
-    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-      </span><span class="s2">"No es una dirección de correo electrónico válida."</span><span class="w">
-    </span><span class="p">]</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre>
+<h1 id='consultas-y-funcionalidades'>Consultas y Funcionalidades</h1><h2 id='asignacion-de-cargo'>Asignación de Cargo</h2>
 <p>Recibe los datos de un postulante y un cargo KS existente en el perfil de la empresa para que el sistema asigne los test respectivos.</p>
 <h3 id='request'>Request</h3>
 <p><code>POST https://app.keyclouding.cl/api/v1/company/assign_ks</code></p>
 <h3 id='parametros-de-la-consulta-2'>Parámetros de la consulta</h3>
+<blockquote>
+<p>URL:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/assign_ks"</span>
+</code></pre>
+<blockquote>
+<p>Ejemplo de body a enviar en la request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AfTzE7BpcORyp6fN"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"dni"</span><span class="p">:</span><span class="w"> </span><span class="mf">13.433</span><span class="err">.</span><span class="mi">615-3</span><span class="p">,</span><span class="w"> 
+  </span><span class="s2">"ks_code"</span><span class="p">:</span><span class="w"> </span><span class="s2">"VET"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"country"</span><span class="p">:</span><span class="w"> </span><span class="s2">"CL"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"nombres"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Juan"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"apellido_paterno"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Perez"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="s2">"juan@perez.cl"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"proceso"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DESARROLLADOR"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Los parámetros deben ser enviados a través del body con un formato de tipo form-data. </p>
+
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -463,9 +458,48 @@
 <td>Dirección de residencia del postulante.</td>
 </tr>
 </tbody></table>
-
-<p>La respuesta obtenida está en el siguiente formato:</p>
 <h3 id='respuesta-json-2'>Respuesta JSON</h3>
+<blockquote>
+<p>Si la asignación es satisfactoria:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message”: “Applicant assigned."</span><span class="p">,</span><span class="w"> 
+  </span><span class="s2">"password”: “0769019c"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"ks_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">32029</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Si se produce un error de autenticación:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">401</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Token inválido"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<blockquote>
+<p>Si se produce un error de parámetros y sus respectivos mensajes:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">400</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"No se incluyó &lt;parámetro&gt;"</span><span class="w"> </span><span class="err">ó</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rut inválido"</span><span class="w"> </span><span class="err">ó</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"KS &lt;parámetro&gt; inexistente"</span><span class="w"> </span><span class="err">ó</span><span class="w">
+  </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"nombres"</span><span class="p">:[</span><span class="w">
+      </span><span class="s2">"No puede estar en blanco"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"apellido_paterno"</span><span class="p">:[</span><span class="w">
+      </span><span class="s2">"No puede estar en blanco"</span><span class="w">
+    </span><span class="p">],</span><span class="w">
+    </span><span class="s2">"email"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+      </span><span class="s2">"No es una dirección de correo electrónico válida."</span><span class="w">
+    </span><span class="p">]</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>La respuesta obtenida está en el siguiente formato:</p>
+
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -493,8 +527,45 @@
 <aside class="success">
 Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </aside>
-<h2 id='consulta-de-resultados'>Consulta de resultados</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/results_ks?token=AfTzE7BpcORyp6fN&amp;ks_id=32029"</span>
+<h2 id='consulta-de-resultados'>Consulta de resultados</h2>
+<p>Recibe ks_id (identificador único del KS) y el sistema retorna los resultados de la rendición.</p>
+<h3 id='request-2'>Request</h3>
+<p><code>POST https://app.keyclouding.cl/api/v1/company/results_ks</code></p>
+<h3 id='parametros-de-la-consulta-3'>Parámetros de la consulta</h3>
+<blockquote>
+<p>URL:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/results_ks"</span>
 </code></pre>
+<blockquote>
+<p>Ejemplo de body a enviar en la request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AfTzE7BpcORyp6fN"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"ks_id"</span><span class="p">:</span><span class="w"> </span><span class="mi">32029</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre>
+<p>Los parámetros deben ser enviados a través del body con un formato de tipo form-data. </p>
+
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token (string)</td>
+<td>obligatorio</td>
+<td>Token generado por la autenticación.</td>
+</tr>
+<tr>
+<td>ks_id (integer)</td>
+<td>obligatorio</td>
+<td>Identificador único de asignación, el mismo que fue retornado en la Asignación de Cargo.</td>
+</tr>
+</tbody></table>
+<h3 id='respuesta-json-3'>Respuesta JSON</h3>
 <blockquote>
 <p>Si la respuesta es satisfactoria:</p>
 </blockquote>
@@ -507,10 +578,12 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   </span><span class="s2">"informe_otros"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"codigo_test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ARP"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"estado_test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rendido"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"informe_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.amazons3.com/kc/12341.pdf"</span><span class="w"> 
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"codigo_test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DCT"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"estado_test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rendido"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"informe_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.amazons3.com/kc/12341.pdf"</span><span class="w"> 
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w"> 
@@ -519,7 +592,8 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 <blockquote>
 <p>Si la respuesta es satisfactoria, pero estado_ks es distinto de &quot;Rendido&quot;:</p>
 </blockquote>
-<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+<pre class="highlight json tab-json"><code><span class="w">
+</span><span class="p">{</span><span class="w">
   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
   </span><span class="s2">"estado_ks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Inválido"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"nota"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
@@ -528,10 +602,12 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   </span><span class="s2">"informe_otros"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"codigo_test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ARP"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"estado_test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"En Proceso"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"informe_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"null"</span><span class="w">
     </span><span class="p">},</span><span class="w">
     </span><span class="p">{</span><span class="w">
       </span><span class="s2">"codigo_test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"DCT"</span><span class="p">,</span><span class="w">
+      </span><span class="s2">"estado_test"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rendido"</span><span class="p">,</span><span class="w">
       </span><span class="s2">"informe_url"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.amazons3.com/kc/12341.pdf"</span><span class="w">
     </span><span class="p">}</span><span class="w">
   </span><span class="p">]</span><span class="w"> 
@@ -554,31 +630,8 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
-<p>Recibe ks_id (identificador único del KS) y el sistema retorna los resultados de la rendición.</p>
-<h3 id='request-2'>Request</h3>
-<p><code>POST https://app.keyclouding.cl/api/v1/company/results_ks</code></p>
-<h3 id='parametros-de-la-consulta-3'>Parámetros de la consulta</h3>
-<table><thead>
-<tr>
-<th>Parámetro</th>
-<th>Carácter</th>
-<th>Descripción</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>token (string)</td>
-<td>obligatorio</td>
-<td>Token generado por la autenticación.</td>
-</tr>
-<tr>
-<td>ks_id (integer)</td>
-<td>obligatorio</td>
-<td>Identificador único de asignación, el mismo que fue retornado en la Asignación de Cargo.</td>
-</tr>
-</tbody></table>
-
 <p>La respuesta obtenida está en el siguiente formato:</p>
-<h3 id='respuesta-json-3'>Respuesta JSON</h3>
+
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -602,16 +655,48 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 <td>Texto que indica si la persona es muy adecuada, adecuada, aceptable o poco satisfactoria para el cargo ó null si el estado_ks es distinto de “Rendido”.</td>
 </tr>
 <tr>
-<td>informe_ks_url (string)</td>
+<td>informe_resumen (string)</td>
 <td>URL donde está alojado el informe PDF del resultado del KS ó null si el estado_ks es distinto de “Rendido”.</td>
 </tr>
 <tr>
-<td>informes_parciales (string)</td>
+<td>informe_otros (string)</td>
 <td>JSON Array con los códigos de los test y sus respectivas URL donde está alojado del informe PDF del resultado del test parcial, ó null si el estado_ks es distinto de “Rendido”.</td>
 </tr>
 </tbody></table>
-<h2 id='lista-de-key-scorings-cargos-activos'>Lista de Key Scorings (cargos) activos</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/list_ks?token=AfTzE7BpcORyp6fN"</span>
+<h2 id='lista-de-key-scorings-cargos-activos'>Lista de Key Scorings (cargos) activos</h2>
+<p>Recibe el token de autentificación de la empresa y retorna todos los KS (cargos) activos.</p>
+<h3 id='request-3'>Request</h3>
+<blockquote>
+<p>URL:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/company/list_ks"</span>
 </code></pre>
+<blockquote>
+<p>Ejemplo de body a enviar en la request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AfTzE7BpcORyp6fN"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span></code></pre>
+<p><code>POST https://app.keyclouding.cl/api/v1/company/list_ks</code></p>
+<h3 id='parametros-de-la-consulta-4'>Parámetros de la consulta</h3>
+<p>Los parámetros deben ser enviados a través del body con un formato de tipo form-data.</p>
+
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token (string)</td>
+<td>obligatorio</td>
+<td>Token generado por la autenticación.</td>
+</tr>
+</tbody></table>
+<h3 id='respuesta-json-4'>Respuesta JSON</h3>
 <blockquote>
 <p>Si la respuesta es satisfactoria:</p>
 </blockquote>
@@ -675,26 +760,8 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   </span><span class="s2">"message"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Token inválido"</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Recibe el token de autentificación de la empresa y retorna todos los KS (cargos) activos.</p>
-<h3 id='request-3'>Request</h3>
-<p><code>POST https://app.keyclouding.cl/api/v1/company/list_ks</code></p>
-<h3 id='parametros-de-la-consulta-4'>Parámetros de la consulta</h3>
-<table><thead>
-<tr>
-<th>Parámetro</th>
-<th>Carácter</th>
-<th>Descripción</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>token (string)</td>
-<td>obligatorio</td>
-<td>Token generado por la autenticación.</td>
-</tr>
-</tbody></table>
-
 <p>La respuesta obtenida está en el siguiente formato:</p>
-<h3 id='respuesta-json-4'>Respuesta JSON</h3>
+
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -737,8 +804,15 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </tbody></table>
 <h2 id='creacion-de-webhook'>Creación de Webhook</h2>
+<p>Permite a un cliente suscribirse a un sistema de actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. Es importante destacar que en la URL callback entregada por el cliente se podrán agregar parametros de autenticación correspondientes a las credenciales especificas de cada sistema.</p>
+<h3 id='request-4'>Request</h3>
 <blockquote>
-<p>Ejemplo de Body a enviar en la request</p>
+<p>URL:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/endpoints"</span>
+</code></pre>
+<blockquote>
+<p>Ejemplo de body a enviar en la request:</p>
 </blockquote>
 <pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
   </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AfTzE7BpcORyp6fN"</span><span class="p">,</span><span class="w">
@@ -747,6 +821,34 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </span><span class="p">}</span><span class="w">
 
 </span></code></pre>
+<p><code>POST https://app.keyclouding.cl/api/v1/webhook/endpoints</code></p>
+<h3 id='parametros-de-la-consulta-5'>Parámetros de la consulta</h3>
+<p>Los parámetros deben ser enviados a través del body con un formato de tipo form-data.</p>
+
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token (string)</td>
+<td>obligatorio</td>
+<td>Token generado por la autenticación.</td>
+</tr>
+<tr>
+<td>callback_url (string)</td>
+<td>obligatorio</td>
+<td>URL a la cual se efectuará la consulta POST ante una modificación de alguna instancia del modelo suscrito.</td>
+</tr>
+<tr>
+<td>entity_model (string)</td>
+<td>obligatorio</td>
+<td>Nombre del modelo al cual se quiere suscribir (e.g &quot;CpcAssignment&quot;)</td>
+</tr>
+</tbody></table>
+<h3 id='respuesta-json-5'>Respuesta JSON</h3>
 <blockquote>
 <p>Ejemplo de Respuesta JSON del POST que se hace al callback_url:</p>
 </blockquote>
@@ -813,38 +915,8 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Permite a un cliente suscribirse a un sistema de actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. Es importante destacar que en la URL callback entregada por el cliente se podrán agregar parametros de autenticación correspondientes a las credenciales especificas de cada sistema.</p>
-<h3 id='request-4'>Request</h3>
-<p><code>POST https://app.keyclouding.cl/api/v1/webhook/endpoints</code></p>
-<h3 id='parametros-de-la-consulta-5'>Parámetros de la consulta</h3>
-<p>Los parámetros deben ser enviados a través del body de la request.</p>
-
-<table><thead>
-<tr>
-<th>Parámetro</th>
-<th>Carácter</th>
-<th>Descripción</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>token (string)</td>
-<td>obligatorio</td>
-<td>Token generado por la autenticación.</td>
-</tr>
-<tr>
-<td>callback_url (string)</td>
-<td>obligatorio</td>
-<td>URL a la cual se efectuará la consulta POST ante una modificación de alguna instancia del modelo suscrito.</td>
-</tr>
-<tr>
-<td>entity_model (string)</td>
-<td>obligatorio</td>
-<td>Nombre del modelo al cual se quiere suscribir (e.g &quot;CpcAssignment&quot;)</td>
-</tr>
-</tbody></table>
-
 <p>La respuesta obtenida está en el siguiente formato:</p>
-<h3 id='respuesta-json-5'>Respuesta JSON</h3>
+
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -898,8 +970,39 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 <aside class="success">
 Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones de la entity_model 'CpcAssignment'
 </aside>
-<h2 id='listar-webhooks-existentes'>Listar Webhooks existentes</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/list_webhooks?token=AfTzE7BpcORyp6fN"</span>
+<h2 id='listar-webhooks-existentes'>Listar Webhooks existentes</h2>
+<p>Permite obtener una lista con los webhooks existentes de la entidad o un mensaje informando que no posee ninguno en caso contrario.</p>
+
+<blockquote>
+<p>URL:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/list_webhooks"</span>
 </code></pre>
+<blockquote>
+<p>Ejemplo de body a enviar en la request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AfTzE7BpcORyp6fN"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='request-5'>Request</h3>
+<p><code>GET https://app.keyclouding.cl/api/v1/webhook/list_webhooks</code></p>
+<h3 id='parametros-de-la-consulta-6'>Parámetros de la consulta</h3>
+<p>Los parámetros deben ser enviados a través del body con un formato de tipo form-data.</p>
+
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token (string)</td>
+<td>obligatorio</td>
+<td>Token generado por la autenticación.</td>
+</tr>
+</tbody></table>
+<h3 id='respuesta-json-6'>Respuesta JSON</h3>
 <blockquote>
 <p>Si la respuesta es satisfactoria:</p>
 </blockquote>
@@ -931,26 +1034,8 @@ Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Permite obtener una lista con los webhooks existentes de la entidad o un mensaje informando que no posee ninguno en caso contrario.</p>
-<h3 id='request-5'>Request</h3>
-<p><code>GET https://app.keyclouding.cl/api/v1/webhook/list_webhooks</code></p>
-<h3 id='parametros-de-la-consulta-6'>Parámetros de la consulta</h3>
-<table><thead>
-<tr>
-<th>Parámetro</th>
-<th>Carácter</th>
-<th>Descripción</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>token (string)</td>
-<td>obligatorio</td>
-<td>Token generado por la autenticación.</td>
-</tr>
-</tbody></table>
-
 <p>La respuesta obtenida está en el siguiente formato:</p>
-<h3 id='respuesta-json-6'>Respuesta JSON</h3>
+
 <table><thead>
 <tr>
 <th>Parámetro</th>
@@ -1000,8 +1085,45 @@ Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones
 <td>Fecha de actualización de webhook.</td>
 </tr>
 </tbody></table>
-<h2 id='eliminacion-de-webhook'>Eliminación de Webhook</h2><pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/endpoints?token=AfTzE7BpcORyp6fN&amp;id=43"</span>
+<h2 id='eliminacion-de-webhook'>Eliminación de Webhook</h2>
+<p>Permite eliminar un webhook asociado a un modelo del sistema, para dejar de recibir solicitudes al momento de actualizaciones de instancias del modelo suscrito.</p>
+<h3 id='request-6'>Request</h3>
+<p><code>DELETE https://app.keyclouding.cl/api/v1/webhook/endpoints</code></p>
+
+<blockquote>
+<p>URL:</p>
+</blockquote>
+<pre class="highlight shell tab-shell"><code><span class="s2">"https://app.keyclouding.cl/api/v1/webhook/endpoints"</span>
 </code></pre>
+<blockquote>
+<p>Ejemplo de body a enviar en la request:</p>
+</blockquote>
+<pre class="highlight json tab-json"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"token"</span><span class="p">:</span><span class="w"> </span><span class="s2">"AfTzE7BpcORyp6fN"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"id"</span><span class="p">:</span><span class="w"> </span><span class="mi">43</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre><h3 id='parametros-de-la-consulta-7'>Parámetros de la consulta</h3>
+<p>Los parámetros deben ser enviados a través del body con un formato de tipo form-data.</p>
+
+<table><thead>
+<tr>
+<th>Parámetro</th>
+<th>Carácter</th>
+<th>Descripción</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>token (string)</td>
+<td>obligatorio</td>
+<td>Token generado por la autenticación.</td>
+</tr>
+<tr>
+<td>id (integer)</td>
+<td>obligatorio</td>
+<td>Identificador único del webhook, el mismo que fue retornado en la Creación de Webhook.</td>
+</tr>
+</tbody></table>
+<h3 id='respuesta-json-7'>Respuesta JSON</h3>
 <blockquote>
 <p>Si la respuesta es satisfactoria:</p>
 </blockquote>
@@ -1022,31 +1144,8 @@ Recuerda: actualmente sólo se puede realizar seguimiento de las actualizaciones
   </span><span class="p">}</span><span class="w">
 </span><span class="p">}</span><span class="w">
 </span></code></pre>
-<p>Permite eliminar un webhook asociado a un modelo del sistema, para dejar de recibir solicitudes al momento de actualizaciones de instancias del modelo suscrito.</p>
-<h3 id='request-6'>Request</h3>
-<p><code>DELETE https://app.keyclouding.cl/api/v1/webhook/endpoints</code></p>
-<h3 id='parametros-de-la-consulta-7'>Parámetros de la consulta</h3>
-<table><thead>
-<tr>
-<th>Parámetro</th>
-<th>Carácter</th>
-<th>Descripción</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>token (string)</td>
-<td>obligatorio</td>
-<td>Token generado por la autenticación.</td>
-</tr>
-<tr>
-<td>id (integer)</td>
-<td>obligatorio</td>
-<td>Identificador único del webhook, el mismo que fue retornado en la Creación de Webhook.</td>
-</tr>
-</tbody></table>
-
 <p>La respuesta obtenida está en el siguiente formato:</p>
-<h3 id='respuesta-json-7'>Respuesta JSON</h3>
+
 <table><thead>
 <tr>
 <th>Parámetro</th>
