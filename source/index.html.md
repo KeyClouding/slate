@@ -127,14 +127,14 @@ Los parámetros deben ser enviados a través del body con un formato de tipo for
 Parámetro | Carácter | Descripción
 --------- | -------- | -----------
 token (string) | obligatorio | Token generado por la autenticación.
-dni (string) | obligatorio | Documento de identidad del postulante.
+email (string) | obligatorio | Email en el cual el postulante recibirá su contraseña y luego utilizará para ingresar a la plataforma.
 ks_code (string) | obligatorio | Sigla que representa el KS a asignar. Debe ser la misma que la creada en el perfil de KeyClouding.
-country (string) | obligatorio | País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra [aquí](https://es.wikipedia.org/wiki/ISO_3166-1) (tenga cuidado en elegir el código correspondiente de 2 letras).
-nombres (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescriben los nombres del postulante.
-apellido_paterno (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
-email (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el email del postulante.
 proceso (string) | obligatorio | Nombre del proceso del cual está participando el postulante.
+nombres (string) | obligatorio | Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescriben los nombres del postulante.
+apellido_paterno (string) | obligatorio | Obligatorio sólo si mail del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
 user_id (integer) | opcional | ID del usuario de la plataforma bajo el cual estarán a cargo las asignaciones. Si no se especifica queda por defecto bajo alguno de los administradores de la empresa.
+dni (string) | opcional | Documento de identidad del postulante.
+country (string) | opcional | País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra [aquí](https://es.wikipedia.org/wiki/ISO_3166-1) (tenga cuidado en elegir el código correspondiente de 2 letras).
 phone (string) | opcional | Teléfono del postulante en formato internacional (+569xxxxxxxx) para envío de SMS. En caso de que el formato no coincida no arrojará error, pero no se guardará el teléfono ni se enviará el SMS. Para que el formato del teléfono sea válido el código de país debe coincidir con el campo Country. Este se encuentra en la misma tabla de código de países.
 apellido_materno (string) | opcional | En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.
 genero (string) | opcional | "Masculino" o "Femenino". En caso de que el campo no cumpla con el formato, el valor no será asignado al campo, pero se realizará de todas maneras la asignación del KS.
