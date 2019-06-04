@@ -440,7 +440,7 @@ tests | Lista de tests correspondientes al ks y algunos parámetros de cada test
 ## Creación de Webhook
 
 
-Permite a un cliente suscribirse a un sistema de actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. Es importante destacar que en la URL callback entregada por el cliente se podrán agregar parametros de autenticación correspondientes a las credenciales especificas de cada sistema.
+Permite a un cliente suscribirse a un sistema de actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. En el caso de ser el cpc assignment se realizará el post cuando se hayan rendido o expirado todas las pruebas. Es importante destacar que en la URL callback entregada por el cliente se podrán agregar parametros de autenticación correspondientes a las credenciales especificas de cada sistema.
 ### Request
 
 > URL:
