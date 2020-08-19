@@ -393,9 +393,9 @@
 <td>Token generado por la autenticación.</td>
 </tr>
 <tr>
-<td>dni (string)</td>
+<td>email (string)</td>
 <td>obligatorio</td>
-<td>Documento de identidad del postulante.</td>
+<td>Email en el cual el postulante recibirá su contraseña y luego utilizará para ingresar a la plataforma.</td>
 </tr>
 <tr>
 <td>ks_code (string)</td>
@@ -403,9 +403,9 @@
 <td>Sigla que representa el KS a asignar. Debe ser la misma que la creada en el perfil de KeyClouding.</td>
 </tr>
 <tr>
-<td>country (string)</td>
+<td>proceso (string)</td>
 <td>obligatorio</td>
-<td>País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra <a href="https://es.wikipedia.org/wiki/ISO_3166-1">aquí</a> (tenga cuidado en elegir el código correspondiente de 2 letras).</td>
+<td>Nombre del proceso del cual está participando el postulante.</td>
 </tr>
 <tr>
 <td>nombres (string)</td>
@@ -415,22 +415,22 @@
 <tr>
 <td>apellido_paterno (string)</td>
 <td>obligatorio</td>
-<td>Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.</td>
-</tr>
-<tr>
-<td>email (string)</td>
-<td>obligatorio</td>
-<td>Obligatorio sólo si dni del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el email del postulante.</td>
-</tr>
-<tr>
-<td>proceso (string)</td>
-<td>obligatorio</td>
-<td>Nombre del proceso del cual está participando el postulante.</td>
+<td>Obligatorio sólo si mail del postulante no había sido ingresado en el sistema. En caso de que el postulante ya exista en el sistema y este parámetro venga en la consulta, se sobreescribe el apellido paterno del postulante.</td>
 </tr>
 <tr>
 <td>user_id (integer)</td>
 <td>opcional</td>
 <td>ID del usuario de la plataforma bajo el cual estarán a cargo las asignaciones. Si no se especifica queda por defecto bajo alguno de los administradores de la empresa.</td>
+</tr>
+<tr>
+<td>dni (string)</td>
+<td>opcional</td>
+<td>Documento de identidad del postulante.</td>
+</tr>
+<tr>
+<td>country (string)</td>
+<td>opcional</td>
+<td>País emisor del documento de identidad del postulante (sigla internacional). La lista de códigos de paises disponibles se encuentra <a href="https://es.wikipedia.org/wiki/ISO_3166-1">aquí</a> (tenga cuidado en elegir el código correspondiente de 2 letras).</td>
 </tr>
 <tr>
 <td>phone (string)</td>
@@ -573,7 +573,6 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
   </span><span class="s2">"estado_ks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Rendido"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"nota"</span><span class="p">:</span><span class="w"> </span><span class="s2">"3.5"</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"rango"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Poco satisfactorio"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"informe_resumen"</span><span class="p">:</span><span class="w"> </span><span class="s2">"https://www.amazons3.com/kc/235324234.pdf"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"informe_otros"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
@@ -597,7 +596,6 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
   </span><span class="s2">"status"</span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
   </span><span class="s2">"estado_ks"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Inválido"</span><span class="p">,</span><span class="w">
   </span><span class="s2">"nota"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
-  </span><span class="s2">"rango"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="s2">"informe_resumen"</span><span class="p">:</span><span class="w"> </span><span class="kc">null</span><span class="p">,</span><span class="w">
   </span><span class="s2">"informe_otros"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
     </span><span class="p">{</span><span class="w">
@@ -649,10 +647,6 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 <tr>
 <td>nota (string)</td>
 <td>Nota obtenida en el KS ó null si el estado_ks es distinto de “Rendido”.</td>
-</tr>
-<tr>
-<td>rango (string)</td>
-<td>Texto que indica si la persona es muy adecuada, adecuada, aceptable o poco satisfactoria para el cargo ó null si el estado_ks es distinto de “Rendido”.</td>
 </tr>
 <tr>
 <td>informe_resumen (string)</td>
@@ -804,7 +798,7 @@ Recuerda: una asignación completa es sinónimo de una asignación exitosa!
 </tr>
 </tbody></table>
 <h2 id='creacion-de-webhook'>Creación de Webhook</h2>
-<p>Permite a un cliente suscribirse a un sistema de actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. Es importante destacar que en la URL callback entregada por el cliente se podrán agregar parametros de autenticación correspondientes a las credenciales especificas de cada sistema.</p>
+<p>Permite a un cliente suscribirse a un sistema de actualizaciones sobre un modelo de KeyClouding. Al crear un webhook se debe indicar una URL callback, a la que se le enviará una solicitud POST al momento de existir actualizaciones sobre el modelo suscrito. En el caso de ser el cpc assignment se realizará el post cuando se hayan rendido o expirado todas las pruebas. Es importante destacar que en la URL callback entregada por el cliente se podrán agregar parametros de autenticación correspondientes a las credenciales especificas de cada sistema.</p>
 <h3 id='request-4'>Request</h3>
 <blockquote>
 <p>URL:</p>
